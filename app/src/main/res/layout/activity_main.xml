@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_image"
     tools:context=".MainActivity">
 
     <TableRow
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
+
 
         <TextView
             android:id="@+id/appName"
@@ -56,6 +58,7 @@
             android:layout_height="wrap_content"
             android:text="@string/nombre"
             android:textSize="20sp" />
+
     </TableRow>
 
     <TableRow
@@ -71,6 +74,10 @@
             android:hint="@string/escribeAqui"
             android:inputType="text"
             android:textSize="20sp" />
+
+        <requestFocus
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </TableRow>
 
     <TableRow
@@ -130,6 +137,7 @@
                 android:textSize="16sp" />
         </RadioGroup>
     </TableRow>
+
     <TableRow
         android:id="@+id/tableRow9"
         android:layout_width="match_parent"
@@ -138,11 +146,12 @@
 
         <Button
             android:id="@+id/buttonPlay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#006BBD"
+            android:background="@drawable/custom_button_play"
             android:text="@string/jugar"
             android:textSize="20sp" />
+
     </TableRow>
     <TableRow
         android:id="@+id/tableRow10"

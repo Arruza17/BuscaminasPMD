@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
@@ -38,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonPlay:
-                generatePlayWindow();
+                if(checkEveryField()){
+                    generatePlayWindow();
+                }
                 break;
             case R.id.buttonScoreBoard:
                 generateScoreBoardWindow();
@@ -48,6 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+    }
+
+    private boolean checkEveryField() {
+        boolean ok = true;
+        if(editText_Nombre.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),getString(R.string.escribeAqui),Toast.LENGTH_LONG).show();
+        }
+        return ok;
     }
 
     private void generateHelpWindow() {
