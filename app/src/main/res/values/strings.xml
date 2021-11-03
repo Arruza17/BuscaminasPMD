@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Pufferfish Minesweeper</string>
-    <string name="nombre">Name:</string>
-    <string name="dificultad">Difficulty:</string>
+    <string name="pufferfish" translatable="false">Pufferfish</string>
+    <string name="minesweeper" translatable="false">Minesweeper</string>
+    <string name="nombre">Name</string>
+    <string name="dificultad">Difficulty</string>
     <string name="facil">Easy</string>
     <string name="media">Medium</string>
     <string name="dificil">Hard</string>
     <string name="jugar">Play</string>
     <string name="puntuaciones">ScoreBoard</string>
     <string name="ayuda">Help</string>
-    <string name="escribeAqui">Write here your name</string>
+    <string name="escribeAqui">e.x.: Elon Musk</string>
+
 </resources>

@@ -8,7 +8,9 @@
         <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/ic_baseline_crop_square_24.xml" value="0.2203125" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/layout_background.xml" value="0.2203125" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_prueba_drop_down.xml" value="0.5" />
+        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/dropdown_item.xml" value="0.17391304347826086" />
       </map>
     </option>
   </component>
