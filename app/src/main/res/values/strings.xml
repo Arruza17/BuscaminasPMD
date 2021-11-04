@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name" translatable="false">Pufferfish Minesweeper</string>
     <string name="pufferfish" translatable="false">Pufferfish</string>
@@ -12,5 +12,6 @@
     <string name="puntuaciones">ScoreBoard</string>
     <string name="ayuda">Help</string>
     <string name="escribeAqui">e.x.: Elon Musk</string>
-
+    <string name="easterEggFound">Easter Egg Found!</string>
+    <string name="introduceTextoPrimero">Insert your name first...</string>
 </resources>

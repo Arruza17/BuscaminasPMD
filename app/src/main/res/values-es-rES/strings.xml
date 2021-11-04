@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="nombre">Nombre</string>
     <string name="dificultad">Dificultad</string>
     <string name="facil">Fácil</string>
     <string name="media">Media</string>
-    <string name="dificil">Difincil</string>
+    <string name="dificil">Difícil</string>
     <string name="jugar">Jugar</string>
     <string name="puntuaciones">Puntuaciones</string>
     <string name="ayuda">Ayuda</string>
-    <string name="escribeAqui">e.g.: Elon Musk</string>
+    <string name="escribeAqui">e.j.: Elon Musk</string>
+    <string name="easterEggFound">Easter Egg encontrado!</string>
+    <string name="introduceTextoPrimero">Introduce tu nombre primero...</string>
 </resources>
