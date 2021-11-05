@@ -3,14 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/backgroud_gradient.xml" value="0.2203125" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/custom_button_play.xml" value="0.12037037037037036" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/ic_baseline_crop_square_24.xml" value="0.2203125" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/layout_background.xml" value="0.2203125" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_prueba_drop_down.xml" value="0.5" />
-        <entry key="..\:/Users/ander/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/dropdown_item.xml" value="0.17391304347826086" />
+        <entry key="..\:/Users/2dam.HZ375757/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Users/2dam.HZ375757/AndroidStudioProjects/BuscaminasPMD/app/src/main/res/layout/activity_main.xml" value="0.4" />
       </map>
     </option>
   </component>

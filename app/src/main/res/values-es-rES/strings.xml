@@ -5,10 +5,12 @@
     <string name="facil">Fácil</string>
     <string name="media">Media</string>
     <string name="dificil">Difícil</string>
+    <string name="extrema">Extrema</string>
     <string name="jugar">Jugar</string>
     <string name="puntuaciones">Puntuaciones</string>
     <string name="ayuda">Ayuda</string>
     <string name="escribeAqui">e.j.: Elon Musk</string>
     <string name="easterEggFound">Easter Egg encontrado!</string>
-    <string name="introduceTextoPrimero">Introduce tu nombre primero...</string>
+    <string name="introduceTextoPrimero">Introduce tu nombre...</string>
+    <string name="introduceDificultad">Introduce la dificultad...</string>
 </resources>

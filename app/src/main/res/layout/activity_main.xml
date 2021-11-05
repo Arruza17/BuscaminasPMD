@@ -40,6 +40,7 @@
             android:textColor="#4A4343"
             android:textSize="34sp"
             android:textStyle="bold" />
+
     </TableRow>
 
     <TableRow
@@ -79,7 +80,8 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/pezglobo" />
+                android:background="@drawable/pezglobo"
+                android:contentDescription="@string/pufferfish" />
         </LinearLayout>
 
     </TableRow>
@@ -110,7 +112,7 @@
         <EditText
             android:id="@+id/editText_Nombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:drawableLeft="@drawable/ic_user"
             android:fontFamily="@font/chivo"
             android:hint="@string/escribeAqui"
@@ -164,6 +166,7 @@
                 android:id="@+id/radioButtonFacil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
                 android:text="@string/facil"
                 android:textColor="#FFFFFF"
@@ -173,6 +176,7 @@
                 android:id="@+id/radioButtonMedia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
                 android:text="@string/media"
                 android:textColor="#FFFFFF"
@@ -182,6 +186,7 @@
                 android:id="@+id/radioButtonDificil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
                 android:text="@string/dificil"
                 android:textColor="#FFFFFF"
