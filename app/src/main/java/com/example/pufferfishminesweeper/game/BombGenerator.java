@@ -6,117 +6,119 @@
 package com.example.pufferfishminesweeper.game;
 
 /**
- *
  * @author YERAY
  */
 public class BombGenerator extends Thread {
 
-    private final int minas;
-    private final int filas;
-    private final int columnas;
+    private final int mines;
+    private final int rows;
+    private final int columns;
 
-    public BombGenerator(String[][] bombas, int minas) {
-        filas = bombas.length;
-        columnas = bombas[1].length;
-        this.minas = minas;
-        this.run(bombas);
+
+    public BombGenerator(String[][] bombs, int mines) {
+        rows = bombs.length;
+        columns = bombs[1].length;
+        this.mines = mines;
+        this.run(bombs);
     }
 
-    public void run(String[][] bombas) {
-        generarTablero(bombas);
-        generarNumeros(bombas);
-        sustituirBombas(bombas);
+    public void run(String[][] bombs) {
+        generateBoard(bombs);
+        generateNumbers(bombs);
+        replace(bombs);
     }
 
 
-    private void generarTablero(String[][] bombas) {
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                bombas[i][j] = "0";
+    private void generateBoard(String[][] bombs) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                bombs[i][j] = "0";
             }
         }
 
-        for (int i = 0; i < minas; i++) {
-            int x = (int) (Math.random() * filas);
-            int y = (int) (Math.random() * columnas);
-            bombas[x][y] = "9";
+        for (int i = 0; i < mines; i++) {
+            int x = (int) (Math.random() * rows);
+            int y = (int) (Math.random() * columns);
+            bombs[x][y] = "9";
         }
 
     }
 
-    private void generarNumeros(String[][] bombas) {
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                if (Integer.parseInt(bombas[i][j]) >= 8) {
-                    if (i == 0) {
-                        if (j == 0) { //arriba izq
-                            bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
-                            bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                            bombas[i + 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j + 1]));
-                        } else if (j == columnas - 1) { //arriba der
-                            bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
-                            bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                            bombas[i + 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j - 1]));
+    private void generateNumbers(String[][] bombs) {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                if (Integer.parseInt(bombs[x][y]) >= 8) {
+                    if (x == 0) {
+                        if (y == 0) { //arriba izq
+                            bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
+                            bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                            bombs[x + 1][y + 1] = numberString(Integer.parseInt(bombs[x + 1][y + 1]));
+                        } else if (y == columns - 1) { //arriba der
+                            bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
+                            bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                            bombs[x + 1][y - 1] = numberString(Integer.parseInt(bombs[x + 1][y - 1]));
                         } else { //fila arriba
-                            bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                            bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                            bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
-                            bombas[i + 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j + 1]));
-                            bombas[i + 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j - 1]));
+                            bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                            bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                            bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
+                            bombs[x + 1][y + 1] = numberString(Integer.parseInt(bombs[x + 1][y + 1]));
+                            bombs[x + 1][y - 1] = numberString(Integer.parseInt(bombs[x + 1][y - 1]));
                         }
-                    } else if (j == 0 && i < filas - 1 && i > 0) { //columna izq + esquinas
-                        bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                        bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
-                        bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                        bombas[i - 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j + 1]));
-                        bombas[i + 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j + 1]));
-                    } else if (i == filas - 1) {
-                        if (j == 0) { //abajo izq
-                            bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                            bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                            bombas[i - 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j + 1]));
-                        } else if (j == columnas - 1) { //abajo der
-                            bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                            bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                            bombas[i - 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j - 1]));
+                    } else if (y == 0 && x < rows - 1 && x > 0) { //columna izq + esquinas
+                        bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                        bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
+                        bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                        bombs[x - 1][y + 1] = numberString(Integer.parseInt(bombs[x - 1][y + 1]));
+                        bombs[x + 1][y + 1] = numberString(Integer.parseInt(bombs[x + 1][y + 1]));
+                    } else if (x == rows - 1) {
+                        if (y == 0) { //abajo izq
+                            bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                            bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                            bombs[x - 1][y + 1] = numberString(Integer.parseInt(bombs[x - 1][y + 1]));
+                        } else if (y == columns - 1) { //abajo der
+                            bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                            bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                            bombs[x - 1][y - 1] = numberString(Integer.parseInt(bombs[x - 1][y - 1]));
                         } else { //fila abajo
-                            bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                            bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                            bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                            bombas[i - 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j - 1]));
-                            bombas[i - 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j + 1]));
+                            bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                            bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                            bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                            bombs[x - 1][y - 1] = numberString(Integer.parseInt(bombs[x - 1][y - 1]));
+                            bombs[x - 1][y + 1] = numberString(Integer.parseInt(bombs[x - 1][y + 1]));
                         }
-                    } else if (j == columnas - 1 && i < filas - 1 && i > 0) { //columna der + esquinas
-                        bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                        bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
-                        bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                        bombas[i - 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j - 1]));
-                        bombas[i + 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j - 1]));
+                    } else if (y == columns - 1 && x < rows - 1 && x > 0) { //columna der + esquinas
+                        bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                        bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
+                        bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                        bombs[x - 1][y - 1] = numberString(Integer.parseInt(bombs[x - 1][y - 1]));
+                        bombs[x + 1][y - 1] = numberString(Integer.parseInt(bombs[x + 1][y - 1]));
                     } else { //resto
-                        bombas[i - 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j - 1]));
-                        bombas[i - 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i - 1][j + 1]));
-                        bombas[i - 1][j] = cambiarNumero(Integer.parseInt(bombas[i - 1][j]));
-                        bombas[i][j - 1] = cambiarNumero(Integer.parseInt(bombas[i][j - 1]));
-                        bombas[i][j + 1] = cambiarNumero(Integer.parseInt(bombas[i][j + 1]));
-                        bombas[i + 1][j - 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j - 1]));
-                        bombas[i + 1][j + 1] = cambiarNumero(Integer.parseInt(bombas[i + 1][j + 1]));
-                        bombas[i + 1][j] = cambiarNumero(Integer.parseInt(bombas[i + 1][j]));
+                        bombs[x - 1][y - 1] = numberString(Integer.parseInt(bombs[x - 1][y - 1]));
+                        bombs[x - 1][y + 1] = numberString(Integer.parseInt(bombs[x - 1][y + 1]));
+                        bombs[x - 1][y] = numberString(Integer.parseInt(bombs[x - 1][y]));
+                        bombs[x][y - 1] = numberString(Integer.parseInt(bombs[x][y - 1]));
+                        bombs[x][y + 1] = numberString(Integer.parseInt(bombs[x][y + 1]));
+                        bombs[x + 1][y - 1] = numberString(Integer.parseInt(bombs[x + 1][y - 1]));
+                        bombs[x + 1][y + 1] = numberString(Integer.parseInt(bombs[x + 1][y + 1]));
+                        bombs[x + 1][y] = numberString(Integer.parseInt(bombs[x + 1][y]));
                     }
                 }
             }
         }
     }
 
-    private String cambiarNumero(int parseInt) {
+    private String numberString(int parseInt) {
         parseInt++;
         return String.valueOf(parseInt);
     }
 
-    private void sustituirBombas(String[][] bombas) {
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                if (Integer.parseInt(bombas[i][j]) > 8) {
-                    bombas[i][j] = "*";
+    private void replace(String[][] bombs) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (Integer.parseInt(bombs[i][j]) > 8) {
+                    bombs[i][j] = "*";
+                } else if (Integer.parseInt(bombs[i][j]) == 0) {
+                    bombs[i][j] = "";
                 }
             }
         }

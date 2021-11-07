@@ -10,60 +10,65 @@ package com.example.pufferfishminesweeper.game;
  */
 public class Board {
 
-    private int filas;
-    private int columnas;
-    private static String[][] bombas;
+    private int rows;
+    private int columns;
+    private static String[][] bombs;
+    private int bombCount;
 
-    public int getFilas() {
-        return filas;
+    public int getRows() {
+        return rows;
     }
 
-    public void setFilas(int filas) {
-        this.filas = filas;
+    public void setRows(int rows) {
+        this.rows = rows;
     }
 
-    public int getColumnas() {
-        return columnas;
+    public int getColumns() {
+        return columns;
     }
 
-    public void setColumnas(int columnas) {
-        this.columnas = columnas;
+    public void setColumns(int columns) {
+        this.columns = columns;
     }
 
     public void setBombas(int cantBombas) {
-        new BombGenerator(bombas, cantBombas);
+        new BombGenerator(bombs, cantBombas);
     }
 
     public String[][] getBombas() {
-        return bombas;
+        return bombs;
+    }
+
+    public int getBombCount() {
+        return bombCount;
     }
 
     public Board(int difficulty) {
-        int cantBombas = 0;
+         bombCount = 0;
         switch (difficulty) {
             case 1:
-                filas = 5;
-                columnas = 5;
-                cantBombas = 3;
+                rows = 5;
+                columns = 5;
+                bombCount = 3;
                 break;
             case 2:
-                filas = 8;
-                columnas = 8;
-                cantBombas = 8;
+                rows = 8;
+                columns = 8;
+                bombCount = 8;
                 break;
             case 3:
-                filas = 10;
-                columnas = 10;
-                cantBombas = 12;
+                rows = 10;
+                columns = 10;
+                bombCount = 12;
                 break;
             case 4:
-                filas = 12;
-                columnas = 12;
-                cantBombas = 30;
+                rows = 12;
+                columns = 12;
+                bombCount = 30;
                 break;
         }
-        bombas = new String[filas][columnas];
-        setBombas(cantBombas);
+        bombs = new String[rows][columns];
+        setBombas(bombCount);
     }
 
 
