@@ -178,6 +178,15 @@ public class MainActivity extends AppCompatActivity {
         int radioButtonHardId = radioButtonHard.getId();
         // get selected radio button from radioGroup
         int selectedId = radioGroupDifficulties.getCheckedRadioButtonId();
+        /*
+        //Create intent to the other activity
+        intent = new Intent(getApplicationContext(),Game.class);
+        //We give the name and the difficulty to the other activity
+        intent.putExtra("message","Animation Beauty");
+        //Start the intents
+        startActivities(intent);
+         */
+        //ANIMACION SI O NO?
         // find the radiobutton by returned id
         if (selectedId == radioButtonEasyId) {
         } else if (selectedId == radioButtonMediumId) {
