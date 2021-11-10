@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.example.pufferfishminesweeper.game.Board;
 import com.example.pufferfishminesweeper.game.NumberButton;
 import com.example.pufferfishminesweeper.powerUps.BlindTimer;
@@ -46,6 +44,7 @@ public class Game extends AppCompatActivity {
     private int difficulty;
     private String[][] boardString;
     private int bombs = 0;
+    private String player;
 
 
     @Override
@@ -69,13 +68,14 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 powerUpHandler(v);
+                v.setEnabled(false);
             }
         });
 
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         gridLayout.setBackground(getDrawable(R.drawable.background));
 
-        difficulty = 4;
+        difficulty = 1;
 
         if (difficulty > 2) {
             btnSize = btnSize / (difficulty * 6);
@@ -142,7 +142,7 @@ public class Game extends AppCompatActivity {
         }
         timerText = new FreezeTimer("Freeze", null, totalTime, timer).generarTemporizador();
         timeButton = (int) ((Math.random() * (int) (totalTime / 1000) + 1));
-        //PowerUpShower pws = new PowerUpShower(timeButton, timer, btnPowerUp);
+        // PowerUpShower pws = new PowerUpShower(timeButton, timer, btnPowerUp);
 
         gridLayout.setColumnCount(boardString.length);
         gridLayout.setRowCount(boardString[1].length);
@@ -167,10 +167,17 @@ public class Game extends AppCompatActivity {
                     imgBtn.setAdjustViewBounds(true);
                     imgBtn.setLayoutParams(params);
                     imgBtn.setClickable(true);
+                    imgBtn.setMaxHeight(btnSize);
+                    imgBtn.setMaxWidth(btnSize);
                     imgBtn.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            imgBtn.setImageDrawable(getDrawable(R.drawable.flag));
+                            Drawable myDrawable = getDrawable(R.drawable.flag);
+                            if (((ImageView)v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
+                                imgBtn.setImageDrawable(getDrawable(R.drawable.emptypng));
+                            } else {
+                                imgBtn.setImageDrawable(getDrawable(R.drawable.flag));
+                            }
                             return false;
                         }
                     });
@@ -188,43 +195,38 @@ public class Game extends AppCompatActivity {
                         }
                     });
 
-                    imgBtn.setMaxHeight(btnSize);
-                    imgBtn.setMaxWidth(btnSize);
-                    imgBtn.setMaxWidth(imgBtn.getMaxHeight());
 
                     gridLayout.addView(imgBtn);
                 } else {
                     btn = new NumberButton(this);
-                    btn.setHeight(btnSize);
-                    btn.setWidth(btnSize);
                     btn.setMaxHeight(btnSize);
                     btn.setMaxWidth(btnSize);
+                    btn.setAdjustViewBounds(true);
                     btn.setLayoutParams(params);
-                    btn.setText(boardString[i][j]);
-                    btn.setGravity(Gravity.CENTER);
-                    btn.setTextSize(fontSize);
-                    btn.setTextColor(Color.argb(0, 255, 255, 255));
+                    btn.setImageDrawable(getDrawable(R.drawable.emptypng));
                     btn.setBackgroundDrawable(border);
                     btn.setRow(i);
                     btn.setColumn(j);
                     btn.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
+                            Drawable myDrawable = getDrawable(R.drawable.flag);
+                            if (((ImageView)v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
+                                btn.setImageDrawable(getDrawable(R.drawable.emptypng));
+                            } else {
+                                btn.setImageDrawable(getDrawable(R.drawable.flag));
+                            }
                             return false;
                         }
                     });
+
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            btn.setEnabled(false);
-                            btn.setClicked(true);
-                            GradientDrawable clearBorder = new GradientDrawable();
-                            clearBorder.setColor(Color.argb(100, 0, 0, 0));
-                            clearBorder.setStroke(1, 0xFF000000);
-                            btn.setBackgroundDrawable(clearBorder);
-                            btn.setTextColor(Color.WHITE);
-                            if (btn.getText().toString().equals("")) {
-                                emptySurroundings(btn);
+                            changeButtonProperties((NumberButton) v);
+                            checkIfWin();
+                            if (boardString[((NumberButton) v).getRow()][((NumberButton) v).getColumn()].equals("")) {
+                                emptySurroundings((NumberButton) v);
                             }
 
                         }
@@ -236,123 +238,179 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    private void establishButtonImage(NumberButton btn) {
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .width(btnSize)  // width in px
+                .height(btnSize) // height in px
+                .endConfig()
+                .buildRect(boardString[btn.getRow()][btn.getColumn()], Color.argb(100, 0, 0, 0));
+        btn.setImageDrawable(drawable);
+    }
+
+    private void changeButtonProperties(NumberButton btn) {
+        btn.setEnabled(false);
+        btn.setClicked(true);
+        GradientDrawable clearBorder = new GradientDrawable();
+        clearBorder.setColor(Color.argb(100, 0, 0, 0));
+        clearBorder.setStroke(1, 0xFF000000);
+        establishButtonImage(btn);
+        btn.setBackgroundDrawable(clearBorder);
+
+
+    }
+
     private void emptySurroundings(NumberButton btn) {
-        if (btn.getText().toString().equals("")) {
-            int x = btn.getRow();
-            int y = btn.getColumn();
-            NumberButton button;
-            if (x == 0) {// FILA 0
-                if (y == 0) { // COLUMNA 0
+        int x = btn.getRow();
+        int y = btn.getColumn();
+        NumberButton button;
+        if (x == 0) {// FILA 0
+            if (y == 0) { // COLUMNA 0
+                button = searchForButton(x, y + 1); //  E
+                if (button == null) {
                     button = searchForButton(x + 1, y); // S
-                    if (button == null) {
-                        button = searchForButton(x, y + 1); //  E
-                    } else {
-                        button.callOnClick();
-                    }
-                } else if (y == gridLayout.getColumnCount() - 1) { //  ULTIMA COLUMNA
-                    button = searchForButton(x + 1, y); // S
-                    if (button == null) {
-                        button = searchForButton(x, y - 1); // O
-                    } else {
-                        button.callOnClick();
-                    }
-                } else { // RESTO
-                    button = searchForButton(x + 1, y); // S
-                    if (button == null) {
-                        button = searchForButton(x, y + 1); // D
-                        if (button == null) {
-                            button = searchForButton(x, y - 1); // I
-                        } else {
-                            button.callOnClick();
-                        }
-                    } else {
-                        button.callOnClick();
-                    }
-                }
-            } else if (x == gridLayout.getRowCount() - 1) { // ULTIMA FILA
-                if (y == 0) { // COLUMNA 0
-                    button = searchForButton(x - 1, y); // N
-                    if (button == null) {
-                        button = searchForButton(x, y + 1); // E
-                    } else {
-                        button.callOnClick();
-                    }
-                } else if (y == gridLayout.getColumnCount() - 1) { // ULTIMA COLUMNA
-                    button = searchForButton(x - 1, y); // N
-                    if (button == null) {
-                        button = searchForButton(x, y - 1); // O
-                    } else {
-                        button.callOnClick();
+                    if (button != null) {
+                        emptySurroundings(button);
                     }
                 } else {
-                    button = searchForButton(x - 1, y); // N
+                    emptySurroundings(button);
+                }
+            } else if (y == gridLayout.getColumnCount() - 1) { //  ULTIMA COLUMNA
+                button = searchForButton(x, y - 1); // O
+                if (button == null) {
+                    button = searchForButton(x + 1, y); // S
+                    if (button != null) {
+                        emptySurroundings(button);
+                    }
+                } else {
+                    emptySurroundings(button);
+                }
+            } else { // RESTO
+                button = searchForButton(x, y + 1); // E
+                if (button == null) {
+                    button = searchForButton(x + 1, y); // S
                     if (button == null) {
-                        button = searchForButton(x, y + 1); // E
-                        if (button == null) {
-                            button = searchForButton(x, y - 1); // O
-                        } else {
-                            button.callOnClick();
+                        button = searchForButton(x, y - 1); // O
+                        if (button != null) {
+                            emptySurroundings(button);
                         }
                     } else {
-                        button.callOnClick();
+                        emptySurroundings(button);
                     }
+                } else {
+                    emptySurroundings(button);
+                }
+            }
+        } else if (x == gridLayout.getRowCount() - 1) { // ULTIMA FILA
+            if (y == 0) { // COLUMNA 0
+                button = searchForButton(x, y + 1); // E
+                if (button == null) {
+                    button = searchForButton(x - 1, y); // N
+                    if (button != null) {
+                        emptySurroundings(button);
+                    }
+                } else {
+                    emptySurroundings(button);
+                }
+            } else if (y == gridLayout.getColumnCount() - 1) { // ULTIMA COLUMNA
+                button = searchForButton(x, y - 1); // O
+                if (button == null) {
+                    button = searchForButton(x - 1, y); // N
+                    if (button != null) {
+                        emptySurroundings(button);
+                    }
+                } else {
+                    emptySurroundings(button);
                 }
             } else {
-                if (y == 0) { // COLUMNA 0
-                    button = searchForButton(x + 1, y); // S
-                    if (button == null) {
-                        button = searchForButton(x - 1, y); // N
-                        if (button == null) {
-                            button = searchForButton(x, y + 1); // E
-                        } else {
-                            button.callOnClick();
-                        }
-                    } else {
-                        button.callOnClick();
+                button = searchForButton(x, y - 1); // O
+                if (button == null) {
+                    button = searchForButton(x - 1, y); // N
+                    if (button != null) {
+                        emptySurroundings(button);
                     }
-                } else if (y == gridLayout.getColumnCount() - 1) { // ULTIMA COLUMNA
-                    button = searchForButton(x + 1, y); // S
                     if (button == null) {
-                        button = searchForButton(x - 1, y); // N
-                        if (button == null) {
-                            button = searchForButton(x, y - 1); // O
-                        } else {
-                            button.callOnClick();
+                        button = searchForButton(x, y + 1); // E
+                        if (button != null) {
+                            emptySurroundings(button);
                         }
                     } else {
-                        button.callOnClick();
+                        emptySurroundings(button);
                     }
                 } else {
-                    button = searchForButton(x + 1, y); // N
+                    emptySurroundings(button);
+                }
+            }
+        } else {
+            if (y == 0) { // COLUMNA 0
+                button = searchForButton(x + 1, y); // S
+                if (button == null) {
+                    button = searchForButton(x, y + 1); // E
+                    if (button == null) {
+                        button = searchForButton(x - 1, y); // N
+                        if (button != null) {
+                            emptySurroundings(button);
+                        }
+                    } else {
+                        emptySurroundings(button);
+                    }
+                } else {
+                    emptySurroundings(button);
+                }
+            } else if (y == gridLayout.getColumnCount() - 1) { // ULTIMA COLUMNA
+                button = searchForButton(x + 1, y); // S
+                if (button == null) {
+                    button = searchForButton(x, y - 1); // O
+                    if (button == null) {
+                        button = searchForButton(x - 1, y); // N
+                        if (button != null) {
+                            emptySurroundings(button);
+                        }
+                    } else {
+                        emptySurroundings(button);
+                    }
+                } else {
+                    emptySurroundings(button);
+                }
+            } else {
+                button = searchForButton(x + 1, y); // N
+                if (button == null) {
+                    button = searchForButton(x, y + 1); // E
                     if (button == null) {
                         button = searchForButton(x - 1, y); // S
                         if (button == null) {
-                            button = searchForButton(x, y + 1); // E
-                            if (button == null) {
-                                button = searchForButton(x, y - 1); // O
-                            } else {
-                                button.callOnClick();
+                            button = searchForButton(x, y - 1); // O
+                            if (button != null) {
+                                emptySurroundings(button);
                             }
                         } else {
-                            button.callOnClick();
+                            emptySurroundings(button);
                         }
                     } else {
-                        button.callOnClick();
+                        emptySurroundings(button);
                     }
+                } else {
+                    emptySurroundings(button);
                 }
             }
         }
 
     }
 
+
     private NumberButton searchForButton(int x, int y) {
         NumberButton but = null;
-        if (boardString[x][y].equals(" ")) {
+        if (!boardString[x][y].equals("*")) {
             for (int j = 0; j < gridLayout.getChildCount(); j++) {
                 if (gridLayout.getChildAt(j) instanceof NumberButton) {
                     NumberButton child = (NumberButton) gridLayout.getChildAt(j);
                     if (!child.isClicked() && (child.getRow() == x && child.getColumn() == y)) { //  boton sin clickar, posicion deseada
                         but = child;
+                        changeButtonProperties(but);
+                        if (!boardString[x][y].equals("")) {
+                            but = null;
+                        }
+                        j = gridLayout.getChildCount();
                     }
                 }
             }
@@ -360,26 +418,29 @@ public class Game extends AppCompatActivity {
         return but;
     }
 
-    private int clickedButtons() {
+    private void checkIfWin() {
         int num = 0;
         for (int j = 0; j < gridLayout.getChildCount(); j++) {
-            if (!gridLayout.getChildAt(j).isEnabled()) {
-                num++;
+            if (gridLayout.getChildAt(j) instanceof NumberButton) {
+                if (((NumberButton) gridLayout.getChildAt(j)).isClicked()) {
+                    num++;
+                }
             }
         }
         if (gridLayout.getChildCount() - bombs == num)
             win();
-
-        return num;
     }
 
     private void win() {
+        timerText.cancel();
+        int score = (int) (((totalTime/100)-Integer.parseInt(timer.getText().toString())) * difficulty)*1000;
+
 
     }
 
     private void loseScreen() {
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
-            if (gridLayout.getChildAt(i) instanceof ImageView) {
+            if (!(gridLayout.getChildAt(i) instanceof NumberButton)) {
                 ImageView view = (ImageView) gridLayout.getChildAt(i);
                 GradientDrawable clearBorder = new GradientDrawable();
                 clearBorder.setColor(Color.argb(100, 0, 0, 0));

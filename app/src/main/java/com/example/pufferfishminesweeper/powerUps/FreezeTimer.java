@@ -27,7 +27,7 @@ public class FreezeTimer extends PowerUp {
 
     }
 
-    public CountDownTimer generarTemporizador() {
+    public CountDownTimer generarTemporizador(){
         CountDownTimer myTimer = new CountDownTimer(totalTime, downTime) {
             public void onTick(long millisUntilFinished) {
                 int time = (int) (millisUntilFinished / 1000);
@@ -43,11 +43,15 @@ public class FreezeTimer extends PowerUp {
             }
 
             public void onFinish() {
-                timer.setText("done!");
+                endGame();
             }
 
         }.start();
         return myTimer;
+    }
+
+    private void endGame() {
+        //metodos para generar la ventana de scoreboard
     }
 
     public CountDownTimer usePower() {

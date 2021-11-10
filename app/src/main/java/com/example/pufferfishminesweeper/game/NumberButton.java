@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.pufferfishminesweeper.R;
 
-public class NumberButton extends androidx.appcompat.widget.AppCompatButton {
+public class NumberButton extends androidx.appcompat.widget.AppCompatImageView{
 
     private int row;
     private int column;
@@ -13,6 +13,7 @@ public class NumberButton extends androidx.appcompat.widget.AppCompatButton {
     public NumberButton(Context context) {
         super(context, null, R.style.Widget_AppCompat_Button_Small);
         clicked = false;
+        super.setClickable(true);
     }
 
     public int getRow() {
