@@ -18,4 +18,6 @@
     <string name="score">PUNTUACÓN</string>
     <string name="best10">TOP 10</string>
     <string name="back">ATRÁS</string>
+    <!--Strings HELP-->
+    <string name="txt_Help">AYUDA</string>
 </resources>

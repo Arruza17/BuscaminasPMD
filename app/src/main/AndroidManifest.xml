@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PufferfishMinesweeper">
         <activity
+            android:name=".HelpScreen"
+            android:exported="true" />
+        <activity
             android:name=".ScoreBoardScreen"
             android:exported="true" />
         <activity

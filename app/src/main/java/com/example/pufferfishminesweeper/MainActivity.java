@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        buttonHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateHelpWindow();
+            }
+        });
         logoChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,6 +178,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void generateHelpWindow() {
+
+        Intent i;
+        i = new Intent(MainActivity.this,HelpScreen.class);
+        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+        startActivity(i,b);
+
     }
 
     private void generateScoreBoardWindow() {
