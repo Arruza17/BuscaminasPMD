@@ -16,4 +16,9 @@
     <string name="easterEggFound">Easter Egg Found!</string>
     <string name="introduceTextoPrimero">Insert your name first...</string>
     <string name="introduceDificultad">Insert the difficulty first..</string>
+    <!-- SCOREBOARD STRINGS-->
+    <string name="nombreMayus">NAME</string>
+    <string name="score">SCORE</string>
+    <string name="best10">TOP 10</string>
+    <string name="back">BACK</string>
 </resources>

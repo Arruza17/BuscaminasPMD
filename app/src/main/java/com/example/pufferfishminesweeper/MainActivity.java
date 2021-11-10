@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -54,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
         radioGroupDifficulties = findViewById(R.id.radioGroupDifficulties);
         buttonPlay = findViewById(R.id.buttonPlay);
         buttonHelp = findViewById(R.id.buttonHelp);
+        buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
         appName = findViewById(R.id.appName);
         radioButtonEasy = findViewById(R.id.radioButtonFacil);
         radioButtonMedium = findViewById(R.id.radioButtonMedia);
         radioButtonHard = findViewById(R.id.radioButtonDificil);
-        buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
         logoChange = findViewById(R.id.buttonChange);
         //Adding all the listeners
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        //
+        buttonScoreBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateScoreBoardWindow();
+            }
+        });
     }
 
 
@@ -169,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void generateScoreBoardWindow() {
+        Intent i;
+        i = new Intent(MainActivity.this,ScoreBoardScreen.class);
+        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+        startActivity(i,b);
     }
 
     private void generatePlayWindow() {
