@@ -173,7 +173,7 @@ public class Game extends AppCompatActivity {
                         @Override
                         public boolean onLongClick(View v) {
                             Drawable myDrawable = getDrawable(R.drawable.flag);
-                            if (((ImageView)v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
+                            if (((ImageView) v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
                                 imgBtn.setImageDrawable(getDrawable(R.drawable.emptypng));
                             } else {
                                 imgBtn.setImageDrawable(getDrawable(R.drawable.flag));
@@ -211,7 +211,7 @@ public class Game extends AppCompatActivity {
                         @Override
                         public boolean onLongClick(View v) {
                             Drawable myDrawable = getDrawable(R.drawable.flag);
-                            if (((ImageView)v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
+                            if (((ImageView) v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
                                 btn.setImageDrawable(getDrawable(R.drawable.emptypng));
                             } else {
                                 btn.setImageDrawable(getDrawable(R.drawable.flag));
@@ -363,38 +363,26 @@ public class Game extends AppCompatActivity {
                     button = searchForButton(x, y - 1); // O
                     if (button == null) {
                         button = searchForButton(x - 1, y); // N
-                        if (button != null) {
-                            emptySurroundings(button);
-                        }
-                    } else {
+
+
                         emptySurroundings(button);
-                    }
-                } else {
-                    emptySurroundings(button);
-                }
-            } else {
-                button = searchForButton(x + 1, y); // N
-                if (button == null) {
-                    button = searchForButton(x, y + 1); // E
-                    if (button == null) {
-                        button = searchForButton(x - 1, y); // S
+                    } else {
+                        button = searchForButton(x + 1, y); // N
                         if (button == null) {
-                            button = searchForButton(x, y - 1); // O
-                            if (button != null) {
-                                emptySurroundings(button);
+                            button = searchForButton(x, y + 1); // E
+                            if (button == null) {
+                                button = searchForButton(x - 1, y); // S
+                                if (button == null) {
+                                    button = searchForButton(x, y - 1); // O
+                                }
                             }
-                        } else {
-                            emptySurroundings(button);
                         }
-                    } else {
                         emptySurroundings(button);
                     }
-                } else {
-                    emptySurroundings(button);
                 }
+
             }
         }
-
     }
 
 
@@ -410,7 +398,6 @@ public class Game extends AppCompatActivity {
                         if (!boardString[x][y].equals("")) {
                             but = null;
                         }
-                        j = gridLayout.getChildCount();
                     }
                 }
             }
@@ -433,7 +420,7 @@ public class Game extends AppCompatActivity {
 
     private void win() {
         timerText.cancel();
-        int score = (int) (((totalTime/100)-Integer.parseInt(timer.getText().toString())) * difficulty)*1000;
+        int score = (int) (((totalTime / 100) - Integer.parseInt(timer.getText().toString())) * difficulty) * 1000;
 
 
     }
