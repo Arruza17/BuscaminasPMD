@@ -1,3 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="app_name">Pufferfish Minesweeper</string>
+    <string name="app_name" translatable="false">Pufferfish Minesweeper</string>
+    <string name="pufferfish" translatable="false">Pufferfish</string>
+    <string name="minesweeper" translatable="false">Minesweeper</string>
+    <string name="nombre">Name</string>
+    <string name="dificultad">Difficulty</string>
+    <string name="facil">Easy</string>
+    <string name="media">Medium</string>
+    <string name="dificil">Hard</string>
+    <string name="extrema">Extreme</string>
+    <string name="jugar">Play</string>
+    <string name="puntuaciones">ScoreBoard</string>
+    <string name="ayuda">Help</string>
+    <string name="escribeAqui">e.x.: Elon Musk</string>
+    <string name="easterEggFound">Easter Egg Found!</string>
+    <string name="introduceTextoPrimero">Insert your name first...</string>
+    <string name="introduceDificultad">Insert the difficulty first..</string>
+    <!-- SCOREBOARD STRINGS-->
+    <string name="nombreMayus">NAME</string>
+    <string name="score">SCORE</string>
+    <string name="best10">TOP 10</string>
+    <string name="back">BACK</string>
+    <string name="noDataYet">No data yet</string>
+    <!--HELP STRINGS-->
+    <string name="txt_Help">HELP</string>
+    <string name="powerups" translatable="false">POWER UPS</string>
+    <string name="tutorial" translatable="false">Tutorial</string>
+    <string name="txt_intent_map">Choose the app to open with</string>
+    <string name="txt_error_2">There is not a browser to open with</string>
+    <string name="txtTip1">If you find this chest on a field you will get a random powerup.</string>
+    <string name="txtTip2">This power up speeds up the timer, you better be fast and accurate!.</string>
+    <string name="txtTip3">This power up slows down the timer, which gives you more time.</string>
+    <string name="txtTutorial">Click below for more information!</string>
+    <string name="youtube" translatable="false">Pufferfish</string>
+    <string name="menu" translatable="false">Menu</string>
+    <!--GAME STRINGS-->
+    <string name="gameEnd">Game Over</string>
+    <string name="timeIssue">There was an issue with the PowerUp</string>
 </resources>

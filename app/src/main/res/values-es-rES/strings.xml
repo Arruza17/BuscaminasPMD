@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="nombre">Nombre</string>
+    <string name="dificultad">Dificultad</string>
+    <string name="facil">Fácil</string>
+    <string name="media">Media</string>
+    <string name="dificil">Difícil</string>
+    <string name="extrema">Extrema</string>
+    <string name="jugar">Jugar</string>
+    <string name="puntuaciones">Puntuaciones</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="escribeAqui">e.j.: Elon Musk</string>
+    <string name="easterEggFound">Easter Egg encontrado!</string>
+    <string name="introduceTextoPrimero">Introduce tu nombre...</string>
+    <string name="introduceDificultad">Introduce la dificultad...</string>
+    <!-- STRINGS SCOREBOARD-->
+    <string name="nombreMayus">NOMBRE</string>
+    <string name="score">PUNTUACÓN</string>
+    <string name="best10">TOP 10</string>
+    <string name="back">ATRÁS</string>
+    <string name="noDataYet">No hay datos todavía</string>
+    <!--Strings HELP-->
+    <string name="txt_Help">AYUDA</string>
+    <string name="txt_intent_map">Elige App con la que abrir</string>
+    <string name="txt_error_2">No hay navegador disponible</string>
+    <string name="txtTip1">Si encuentras este cofre en un campo obtendrás un potenciador al azar.</string>
+    <string name="txtTip2">Este potenciador acelera el temporizador, ¡más vale que seas rápido y preciso!.</string>
+    <string name="txtTip3">Este potenciador ralentiza el temporizador, lo que te da más tiempo.</string>
+    <string name="txtTutorial">¡Clicka debajo para más información!</string>
+    <!--GAME STRINGS-->
+    <string name="gameEnd">Juego terminado</string>
+    <string name="timeIssue">Problema con los PowerUps</string>
+</resources>
