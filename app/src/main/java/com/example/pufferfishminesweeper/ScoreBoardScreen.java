@@ -54,7 +54,7 @@ public class ScoreBoardScreen extends AppCompatActivity {
         databasePufferFish.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER)");
         Random rand = new Random();
         int randPuntuacion = rand.nextInt((255 - 0) + 1) + 0;
-        //databasePufferFish.execSQL("INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('Yeray'," + randPuntuacion + ")");
+        databasePufferFish.execSQL("INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('Yeray'," + randPuntuacion + ")");
         //Generate all the data
         generateData();
 
