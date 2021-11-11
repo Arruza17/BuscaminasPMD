@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -24,12 +26,12 @@ public class ScoreBoardScreen extends AppCompatActivity {
     private TableLayout tableLayoutScores;
 
     private SQLiteDatabase databasePufferFish = null;
-
+    private Button btnBack;
     private final String DATABASE_NAME = "PufferFishDataBase";
     private final String TABLE_NAME = "t_scoreboard";
     private final String COLUM_NOMBRE = "Nombre";
     private final String COLUM_PUNTUACION = "Puntuacion";
-    private final String SELECT_ALL_DATA = "SELECT * FROM "+TABLE_NAME+" ORDER BY "+COLUM_PUNTUACION+" DESC LIMIT 10";
+    private final String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
     private TableLayout tableLayoutScores1;
 
 
@@ -37,44 +39,70 @@ public class ScoreBoardScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
+        //FIND AND SET ALL THE VIEWS
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
+        btnBack = findViewById(R.id.buttonBack);
+        //LISTENERS
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        //DATABASE CONNECTION
         databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
         databasePufferFish.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER)");
         Random rand = new Random();
         int randPuntuacion = rand.nextInt((255 - 0) + 1) + 0;
-        databasePufferFish.execSQL("INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('Yeray',"+ randPuntuacion+")");
+        databasePufferFish.execSQL("INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('Yeray'," + randPuntuacion + ")");
+        //Generate all the data
+        generateData();
 
+    }
+
+    private void generateData() {
         ArrayList<ScoreBoard> scoreBoards = getScores();
-        int index = 0;
-        for (ScoreBoard s : scoreBoards) {
-            index++;
-            //ADD A NEW ROW
+        if (scoreBoards.size() != 0) {
+            int index = 0;
+            for (ScoreBoard s : scoreBoards) {
+                index++;
+                //ADD A NEW ROW
+                TableRow tableRow = new TableRow(this);
+                tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                //ADD THE NAME COLUMN
+                TextView nombre = new TextView(this);
+                nombre.setText(s.getNombre());
+                nombre.setGravity(Gravity.CENTER);
+                //ADD THE COLUMN TO THE ROW
+                tableRow.addView(nombre);
+                //ADD THE SCORE COLUMN
+                TextView score = new TextView(this);
+                score.setGravity(Gravity.CENTER);
+                score.setText(String.valueOf(s.getPuntuacion()));
+                if (index % 2 == 0) {
+                    nombre.setBackground(getDrawable(R.drawable.border));
+                    score.setBackground(getDrawable(R.drawable.border));
+                } else {
+                    nombre.setBackground(getDrawable(R.drawable.border_odd));
+                    score.setBackground(getDrawable(R.drawable.border_odd));
+                }
+                //ADD THE SCORE TO THE ROW
+                tableRow.addView(score);
+                //ADD THE ROW TO THE TABLE
+                tableLayoutScores.addView(tableRow);
+            }
+            databasePufferFish.close();
+        }else{
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            //ADD THE NAME COLUMN
-            TextView nombre = new TextView(this);
-            nombre.setText(s.getNombre());
-            nombre.setGravity(Gravity.CENTER);
-            //ADD THE COLUMN TO THE ROW
-            tableRow.addView(nombre);
-            //ADD THE SCORE COLUMN
-            TextView score = new TextView(this);
-            score.setGravity(Gravity.CENTER);
-            score.setText(String.valueOf(s.getPuntuacion()));
-            if(index%2==0){
-                nombre.setBackground(getDrawable(R.drawable.border));
-                score.setBackground(getDrawable(R.drawable.border));
-            }else{
-                nombre.setBackground(getDrawable(R.drawable.border_odd));
-                score.setBackground(getDrawable(R.drawable.border_odd));
-            }
-            //ADD THE COLUMN TO THE ROW
-            tableRow.addView(score);
-
+            TextView nothing = new TextView(this);
+            nothing.setText(getString(R.string.noDataYet));
+            nothing.setGravity(Gravity.CENTER);
+            //ADD THE SCORE TO THE ROW
+            tableRow.addView(nothing);
+            //ADD THE ROW TO THE TABLE
             tableLayoutScores.addView(tableRow);
-
         }
-        databasePufferFish.close();
     }
 
     /**

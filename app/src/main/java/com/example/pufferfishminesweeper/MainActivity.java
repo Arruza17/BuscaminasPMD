@@ -4,14 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -211,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         //ANIMACION SI O NO?
         // find the radiobutton by returned id
         if (selectedId == radioButtonEasyId) {
+
         } else if (selectedId == radioButtonMediumId) {
 
         } else if (selectedId == radioButtonHardId) {
