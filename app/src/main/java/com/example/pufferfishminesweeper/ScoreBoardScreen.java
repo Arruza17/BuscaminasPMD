@@ -3,6 +3,7 @@ package com.example.pufferfishminesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pufferfishminesweeper.classes.ScoreBoard;
 
@@ -32,13 +34,29 @@ public class ScoreBoardScreen extends AppCompatActivity {
     private final String COLUM_NOMBRE = "Nombre";
     private final String COLUM_PUNTUACION = "Puntuacion";
     private final String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
-    private TableLayout tableLayoutScores1;
+    private String player;
+    private int score;
+    private TableLayout tableYourScores;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
+        databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        databasePufferFish.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER)");
+
+        if (getIntent().getExtras() != null) {
+            score = Integer.parseInt(getIntent().getExtras().getString("score"));
+            player = getIntent().getExtras().getString("player");
+            String insert = "INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('" + player + "'," + score + ")";
+            databasePufferFish.execSQL(insert);
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    player + " " + score, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+
         //FIND AND SET ALL THE VIEWS
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
         btnBack = findViewById(R.id.buttonBack);
@@ -46,15 +64,12 @@ public class ScoreBoardScreen extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(ScoreBoardScreen.this, MainActivity.class);
+                startActivity(intent);
             }
         });
-        //DATABASE CONNECTION
-        databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-        databasePufferFish.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER)");
-        Random rand = new Random();
-        int randPuntuacion = rand.nextInt((255 - 0) + 1) + 0;
-        databasePufferFish.execSQL("INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('Yeray'," + randPuntuacion + ")");
+
+
         //Generate all the data
         generateData();
 
@@ -92,7 +107,7 @@ public class ScoreBoardScreen extends AppCompatActivity {
                 tableLayoutScores.addView(tableRow);
             }
             databasePufferFish.close();
-        }else{
+        } else {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             TextView nothing = new TextView(this);

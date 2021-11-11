@@ -1,10 +1,11 @@
 package com.example.pufferfishminesweeper.game;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.example.pufferfishminesweeper.R;
 
-public class NumberButton extends androidx.appcompat.widget.AppCompatImageView{
+public class NumberButton extends androidx.appcompat.widget.AppCompatImageView {
 
     private int row;
     private int column;

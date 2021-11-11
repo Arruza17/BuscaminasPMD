@@ -64,7 +64,7 @@ public class Board {
             case 4:
                 rows = 12;
                 columns = 12;
-                bombCount = 30;
+                bombCount = rows*columns - 1;
                 break;
         }
         bombs = new String[rows][columns];

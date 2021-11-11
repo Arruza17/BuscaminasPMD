@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonPlay;
     private Button buttonHelp;
     private Button buttonScoreBoard;
-    private String choosedDifficulty = null;
     private ImageButton logoChange;
     private int easterEgg = 10;
     private int radioButtonExtremeId;
@@ -176,41 +175,33 @@ public class MainActivity extends AppCompatActivity {
     private void generateHelpWindow() {
 
         Intent i;
-        i = new Intent(MainActivity.this,HelpScreen.class);
+        i = new Intent(MainActivity.this, HelpScreen.class);
         Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-        startActivity(i,b);
+        startActivity(i, b);
 
     }
 
     private void generateScoreBoardWindow() {
         Intent i;
-        i = new Intent(MainActivity.this,ScoreBoardScreen.class);
+        i = new Intent(MainActivity.this, ScoreBoardScreen.class);
         Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-        startActivity(i,b);
+        startActivity(i, b);
     }
 
     private void generatePlayWindow() {
-        // Setting up the the ids
-        int radioButtonEasyId = radioButtonEasy.getId();
-        int radioButtonMediumId = radioButtonMedium.getId();
-        int radioButtonHardId = radioButtonHard.getId();
-        // get selected radio button from radioGroup
-        int selectedId = radioGroupDifficulties.getCheckedRadioButtonId();
+        //Getting the id and position of the selected radiobutton
+        int radioButtonID = radioGroupDifficulties.getCheckedRadioButtonId();
+        View radioButton = radioGroupDifficulties.findViewById(radioButtonID);
+        int idx = radioGroupDifficulties.indexOfChild(radioButton)+1;
+
         // Create Intent to the GAME CLASS
-        Intent intent = new Intent(MainActivity.this,Game.class);
-        // Find the radiobutton by returned id
+        Intent intent = new Intent(MainActivity.this, Game.class);
         // We give the name and the difficulty to the other activity
-        if (selectedId == radioButtonEasyId) {
-            intent.putExtra("difficulty","1");
-        } else if (selectedId == radioButtonMediumId) {
-            intent.putExtra("difficulty","2");
-        } else if (selectedId == radioButtonHardId) {
-            intent.putExtra("difficulty","3");
-        } else {
-            intent.putExtra("difficulty","4");
-        }
+        intent.putExtra("difficulty", String.valueOf(idx));
+        String player = editText_Nombre.getText().toString();
+        intent.putExtra("player", editText_Nombre.getText().toString());
         Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-        startActivity(intent,b);
+        startActivity(intent, b);
         //Toast.makeText(MainActivity.this,String.valueOf(radioButton.getId()), Toast.LENGTH_SHORT).show();
 
     }

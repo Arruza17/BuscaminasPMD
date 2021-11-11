@@ -4,6 +4,7 @@ package com.example.pufferfishminesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -43,12 +44,12 @@ public class Game extends AppCompatActivity {
     private int timeButton;
     private int difficulty;
     private String[][] boardString;
+    private ImageView[][] buttons;
     private int bombs = 0;
     private String player;
 
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -72,10 +73,14 @@ public class Game extends AppCompatActivity {
             }
         });
 
+
+        difficulty = Integer.parseInt(getIntent().getExtras().getString("difficulty"));
+        player = getIntent().getExtras().getString("player");
+
+
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         gridLayout.setBackground(getDrawable(R.drawable.background));
 
-        difficulty = 1;
 
         if (difficulty > 2) {
             btnSize = btnSize / (difficulty * 6);
@@ -85,8 +90,8 @@ public class Game extends AppCompatActivity {
             btnSize = btnSize / (difficulty * 9);
 
         }
-        generateGame();
 
+        generateGame();
 
     }
 
@@ -121,11 +126,9 @@ public class Game extends AppCompatActivity {
     }
 
     private void generateGame() {
-
         Board board = new Board(difficulty);
         boardString = board.getBombas();
         bombs = board.getBombCount();
-
         switch (difficulty) {
             case 1:
                 totalTime = 100000;
@@ -142,14 +145,14 @@ public class Game extends AppCompatActivity {
         }
         timerText = new FreezeTimer("Freeze", null, totalTime, timer).generarTemporizador();
         timeButton = (int) ((Math.random() * (int) (totalTime / 1000) + 1));
-        // PowerUpShower pws = new PowerUpShower(timeButton, timer, btnPowerUp);
+
 
         gridLayout.setColumnCount(boardString.length);
         gridLayout.setRowCount(boardString[1].length);
         ViewGroup.LayoutParams params = gridLayout.getLayoutParams();
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-
+        buttons = new ImageView[gridLayout.getRowCount()][gridLayout.getColumnCount()];
 
         for (int i = 0; i < boardString.length; i++) {
 
@@ -158,55 +161,18 @@ public class Game extends AppCompatActivity {
             border.setStroke(1, 0xFF000000); //black border with full opacity
 
             for (int j = 0; j < boardString[i].length; j++) {
-                NumberButton btn;
-                ImageView imgBtn;
+                NumberButton nmb;
+                ImageView btn;
                 if (boardString[i][j].equals("*")) {
-                    imgBtn = new ImageView(this);
-                    imgBtn.setImageDrawable(getDrawable(R.drawable.emptypng));
-                    imgBtn.setBackgroundDrawable(border);
-                    imgBtn.setAdjustViewBounds(true);
-                    imgBtn.setLayoutParams(params);
-                    imgBtn.setClickable(true);
-                    imgBtn.setMaxHeight(btnSize);
-                    imgBtn.setMaxWidth(btnSize);
-                    imgBtn.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            Drawable myDrawable = getDrawable(R.drawable.flag);
-                            if (((ImageView) v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
-                                imgBtn.setImageDrawable(getDrawable(R.drawable.emptypng));
-                            } else {
-                                imgBtn.setImageDrawable(getDrawable(R.drawable.flag));
-                            }
-                            return false;
-                        }
-                    });
-                    imgBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            GradientDrawable clearBorder = new GradientDrawable();
-                            clearBorder.setColor(Color.argb(100, 0, 0, 0));
-                            clearBorder.setStroke(1, 0xFF000000);
-                            imgBtn.setEnabled(false);
-                            imgBtn.setClickable(false);
-                            imgBtn.setBackgroundDrawable(clearBorder);
-                            imgBtn.setImageDrawable(getDrawable(R.drawable.pufferfish));
-                            loseScreen();
-                        }
-                    });
-
-
-                    gridLayout.addView(imgBtn);
-                } else {
-                    btn = new NumberButton(this);
-                    btn.setMaxHeight(btnSize);
-                    btn.setMaxWidth(btnSize);
-                    btn.setAdjustViewBounds(true);
-                    btn.setLayoutParams(params);
+                    btn = new ImageView(this);
                     btn.setImageDrawable(getDrawable(R.drawable.emptypng));
                     btn.setBackgroundDrawable(border);
-                    btn.setRow(i);
-                    btn.setColumn(j);
+                    btn.setAdjustViewBounds(true);
+                    btn.setLayoutParams(params);
+                    btn.setClickable(true);
+                    btn.setMaxHeight(btnSize);
+                    btn.setMaxWidth(btnSize);
+
                     btn.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
@@ -219,19 +185,58 @@ public class Game extends AppCompatActivity {
                             return false;
                         }
                     });
-
                     btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GradientDrawable clearBorder = new GradientDrawable();
+                            clearBorder.setColor(Color.argb(100, 0, 0, 0));
+                            clearBorder.setStroke(1, 0xFF000000);
+                            btn.setEnabled(false);
+                            btn.setClickable(false);
+                            btn.setBackgroundDrawable(clearBorder);
+                            btn.setImageDrawable(getDrawable(R.drawable.pufferfish));
+                            loseScreen();
+                        }
+                    });
+                    buttons[i][j] = btn;
+                    gridLayout.addView(btn);
+
+                } else {
+                    nmb = new NumberButton(this);
+                    nmb.setMaxHeight(btnSize);
+                    nmb.setMaxWidth(btnSize);
+                    nmb.setAdjustViewBounds(true);
+                    nmb.setLayoutParams(params);
+                    nmb.setImageDrawable(getDrawable(R.drawable.emptypng));
+                    nmb.setBackgroundDrawable(border);
+                    nmb.setRow(i);
+                    nmb.setColumn(j);
+                    nmb.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Drawable myDrawable = getDrawable(R.drawable.flag);
+                            if (((ImageView) v).getDrawable().getConstantState().equals(myDrawable.getConstantState())) {
+                                nmb.setImageDrawable(getDrawable(R.drawable.emptypng));
+                            } else {
+                                nmb.setImageDrawable(getDrawable(R.drawable.flag));
+                            }
+                            return false;
+                        }
+                    });
+                    nmb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             changeButtonProperties((NumberButton) v);
                             checkIfWin();
                             if (boardString[((NumberButton) v).getRow()][((NumberButton) v).getColumn()].equals("")) {
+                                //emptySurroundings(((NumberButton) v).getRow(), ((NumberButton) v).getColumn());
                                 emptySurroundings((NumberButton) v);
                             }
 
                         }
                     });
-                    gridLayout.addView(btn);
+                    buttons[i][j] = nmb;
+                    gridLayout.addView(nmb);
                 }
 
             }
@@ -258,6 +263,25 @@ public class Game extends AppCompatActivity {
         btn.setBackgroundDrawable(clearBorder);
 
 
+    }
+
+    private NumberButton searchForButton(int x, int y) {
+        NumberButton but = null;
+        if (!boardString[x][y].equals("*")) {
+            for (int j = 0; j < gridLayout.getChildCount(); j++) {
+                if (gridLayout.getChildAt(j) instanceof NumberButton) {
+                    NumberButton child = (NumberButton) gridLayout.getChildAt(j);
+                    if (!child.isClicked() && (child.getRow() == x && child.getColumn() == y)) { //  boton sin clickar, posicion deseada
+                        but = child;
+                        changeButtonProperties(but);
+                        if (!boardString[x][y].equals("")) {
+                            but = null;
+                        }
+                    }
+                }
+            }
+        }
+        return but;
     }
 
     private void emptySurroundings(NumberButton btn) {
@@ -386,24 +410,112 @@ public class Game extends AppCompatActivity {
     }
 
 
-    private NumberButton searchForButton(int x, int y) {
-        NumberButton but = null;
-        if (!boardString[x][y].equals("*")) {
-            for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                if (gridLayout.getChildAt(j) instanceof NumberButton) {
-                    NumberButton child = (NumberButton) gridLayout.getChildAt(j);
-                    if (!child.isClicked() && (child.getRow() == x && child.getColumn() == y)) { //  boton sin clickar, posicion deseada
-                        but = child;
-                        changeButtonProperties(but);
-                        if (!boardString[x][y].equals("")) {
-                            but = null;
-                        }
-                    }
-                }
+    private void emptySurroundings(int j, int k) {
+
+        if (j - 1 < gridLayout.getRowCount() && j - 1 > 0) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k]).isClicked()) {//fila arriba
+                emptySurroundings(((NumberButton) buttons[j - 1][k]).getRow(), (((NumberButton) buttons[j - 1][k]).getColumn()));
             }
         }
-        return but;
+        if (j - 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && j - 1 > 0 && k - 1 > 0) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k - 1]).isClicked()) {//arriba izquierda
+                emptySurroundings(((NumberButton) buttons[j - 1][k - 1]).getRow(), (((NumberButton) buttons[j - 1][k - 1]).getColumn()));
+            }
+        }
+        if (j - 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount() && j - 1 > 0) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j - 1][k + 1]).getRow(), (((NumberButton) buttons[j - 1][k + 1]).getColumn()));
+            }
+        }
+        if (k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j][k - 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j][k - 1]).getRow(), (((NumberButton) buttons[j][k - 1]).getColumn()));
+            }
+        }
+        if (k + 1 < gridLayout.getColumnCount()) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j][k + 1]).getRow(), (((NumberButton) buttons[j][k + 1]).getColumn()));
+            }
+        }
+        if (j + 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k - 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k - 1]).getRow(), (((NumberButton) buttons[j + 1][k - 1]).getColumn()));
+            }
+        }
+        if (j + 1 < gridLayout.getRowCount()) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k]).getRow(), (((NumberButton) buttons[j + 1][k]).getColumn()));
+            }
+        }
+        if (j + 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount()) {
+            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
+            }
+        }
+        //Vacios 0
+        if (j - 1 < gridLayout.getRowCount() && j - 1 > 0) {
+            if (boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j - 1][k]).getRow(), (((NumberButton) buttons[j - 1][k]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j - 1][k]);
+            }
+        }
+        //Arriba izquierda
+        if (j - 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && j - 1 > 0 && k - 1 > 0) {
+            if (boardString[j - 1][k - 1].equals("") && !((NumberButton) buttons[j - 1][k - 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j - 1][k - 1]).getRow(), (((NumberButton) buttons[j - 1][k - 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j - 1][k - 1]);
+            }
+        }
+        //Arriba derecha
+        if (j - 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount() && j - 1 > 0) {
+            if (boardString[j - 1][k + 1].equals("") && !((NumberButton) buttons[j - 1][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j - 1][k + 1]).getRow(), (((NumberButton) buttons[j - 1][k + 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j - 1][k + 1]);
+            }
+        }
+
+        //4 Izquierda
+        if (k - 1 < gridLayout.getColumnCount() && k > 0) {
+            if (boardString[j][k - 1].equals("") && !((NumberButton) buttons[j][k - 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j][k - 1]).getRow(), (((NumberButton) buttons[j][k - 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j][k - 1]);
+            }
+        }
+        //5
+
+        if (k + 1 < gridLayout.getColumnCount()) {
+            if (boardString[j][k + 1].equals("") && !((NumberButton) buttons[j][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j][k + 1]);
+
+            }
+        }
+
+
+        //6
+        if (j + 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
+            if (boardString[j + 1][k - 1].equals("") && !((NumberButton) buttons[j + 1][k - 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k - 1]).getRow(), (((NumberButton) buttons[j + 1][k - 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j + 1][k - 1]);
+
+            }
+        }
+        //7
+        if (j + 1 < gridLayout.getRowCount()) {
+            if (boardString[j + 1][k].equals("") && !((NumberButton) buttons[j + 1][k]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k]).getRow(), (((NumberButton) buttons[j + 1][k]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j + 1][k]);
+            }
+        }
+        //8
+        if (j + 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount()) {
+            if (boardString[j + 1][k + 1].equals("") && !((NumberButton) buttons[j + 1][k + 1]).isClicked()) {
+                emptySurroundings(((NumberButton) buttons[j + 1][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
+                changeButtonProperties((NumberButton) buttons[j + 1][k + 1]);
+            }
+        }
     }
+
 
     private void checkIfWin() {
         int num = 0;
@@ -420,14 +532,19 @@ public class Game extends AppCompatActivity {
 
     private void win() {
         timerText.cancel();
-        int score = (int) (((totalTime / 100) - Integer.parseInt(timer.getText().toString())) * difficulty) * 1000;
-
+        int score = (int) (((totalTime / 1000) - ((totalTime / 1000) - Integer.parseInt(timer.getText().toString()))) * difficulty) * 1000;
+        Intent intent;
+        intent = new Intent(Game.this, ScoreBoardScreen.class);
+        intent.putExtra("player", player);
+        intent.putExtra("score", String.valueOf(score));
+        startActivity(intent);
 
     }
 
     private void loseScreen() {
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
             if (!(gridLayout.getChildAt(i) instanceof NumberButton)) {
+                timerText.cancel();
                 ImageView view = (ImageView) gridLayout.getChildAt(i);
                 GradientDrawable clearBorder = new GradientDrawable();
                 clearBorder.setColor(Color.argb(100, 0, 0, 0));
@@ -435,6 +552,10 @@ public class Game extends AppCompatActivity {
                 view.setBackgroundDrawable(clearBorder);
                 view.setImageDrawable(getDrawable(R.drawable.pufferfish));
                 view.setEnabled(false);
+                Intent intent;
+                intent = new Intent(Game.this, ScoreBoardScreen.class);
+                Bundle b = ActivityOptions.makeSceneTransitionAnimation(Game.this).toBundle();
+                startActivity(intent, b);
             } else {
                 gridLayout.getChildAt(i).setEnabled(false);
             }

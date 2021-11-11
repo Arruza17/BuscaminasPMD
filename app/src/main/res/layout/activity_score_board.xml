@@ -82,7 +82,8 @@
             android:id="@+id/tableLayoutScores"
             android:layout_width="100sp"
             android:layout_height="match_parent"
-            android:background="@drawable/border">
+            android:background="@drawable/border"
+            android:gravity="center">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -165,5 +166,11 @@
             android:textSize="20sp" />
 
     </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow11"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"/>
 
 </TableLayout>

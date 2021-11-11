@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="#476072"
+    android:backgroundTint="#476072"
     tools:context=".Game">
 
     <Button
@@ -14,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="100dp"
+        android:background="#548CA8"
+        android:backgroundTint="#548CA8"
         android:text="@string/menu"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +33,7 @@
         android:text="999"
         android:textAlignment="center"
         android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/btnMenu"
@@ -42,6 +47,7 @@
         android:layout_marginStart="135dp"
         android:layout_marginEnd="135dp"
         android:layout_marginBottom="50dp"
+        android:backgroundTint="#548CA8"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
