@@ -33,5 +33,8 @@
     <string name="txtTip3">This power up slows down the timer, which gives you more time.</string>
     <string name="txtTutorial">Click below for more information!</string>
     <string name="youtube" translatable="false">Pufferfish</string>
-
+    <string name="menu" translatable="false">Menu</string>
+    <!--GAME STRINGS-->
+    <string name="gameEnd">Game Over</string>
+    <string name="timeIssue">There was an issue with the PowerUp</string>
 </resources>

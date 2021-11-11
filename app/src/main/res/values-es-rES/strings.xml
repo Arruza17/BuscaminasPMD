@@ -27,4 +27,7 @@
     <string name="txtTip2">Este potenciador acelera el temporizador, ¡más vale que seas rápido y preciso!.</string>
     <string name="txtTip3">Este potenciador ralentiza el temporizador, lo que te da más tiempo.</string>
     <string name="txtTutorial">¡Clicka debajo para más información!</string>
+    <!--GAME STRINGS-->
+    <string name="gameEnd">Juego terminado</string>
+    <string name="timeIssue">Problema con los PowerUps</string>
 </resources>

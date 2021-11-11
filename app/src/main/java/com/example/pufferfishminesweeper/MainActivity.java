@@ -196,28 +196,23 @@ public class MainActivity extends AppCompatActivity {
         int radioButtonHardId = radioButtonHard.getId();
         // get selected radio button from radioGroup
         int selectedId = radioGroupDifficulties.getCheckedRadioButtonId();
-        /*
-        //Create intent to the other activity
-        intent = new Intent(getApplicationContext(),Game.class);
-        //We give the name and the difficulty to the other activity
-        intent.putExtra("message","Animation Beauty");
-        //Start the intents
-        startActivities(intent);
-         */
-        //ANIMACION SI O NO?
-        // find the radiobutton by returned id
+        // Create Intent to the GAME CLASS
+        Intent intent = new Intent(MainActivity.this,Game.class);
+        // Find the radiobutton by returned id
+        // We give the name and the difficulty to the other activity
         if (selectedId == radioButtonEasyId) {
-
+            intent.putExtra("difficulty","1");
         } else if (selectedId == radioButtonMediumId) {
-
+            intent.putExtra("difficulty","2");
         } else if (selectedId == radioButtonHardId) {
-
+            intent.putExtra("difficulty","3");
         } else {
-
+            intent.putExtra("difficulty","4");
         }
+        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+        startActivity(intent,b);
         //Toast.makeText(MainActivity.this,String.valueOf(radioButton.getId()), Toast.LENGTH_SHORT).show();
-        //intent = new Intent(MainActivity.this, Game.class);
-        //startActivityForResult(intent, SECODNARY_ACTIVITY_1);
+
     }
 
 
