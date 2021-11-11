@@ -23,4 +23,8 @@
     <string name="txt_Help">AYUDA</string>
     <string name="txt_intent_map">Elige App con la que abrir</string>
     <string name="txt_error_2">No hay navegador disponible</string>
+    <string name="txtTip1">Si encuentras este cofre en un campo obtendrás un potenciador al azar.</string>
+    <string name="txtTip2">Este potenciador acelera el temporizador, ¡más vale que seas rápido y preciso!.</string>
+    <string name="txtTip3">Este potenciador ralentiza el temporizador, lo que te da más tiempo.</string>
+    <string name="txtTutorial">¡Clicka debajo para más información!</string>
 </resources>

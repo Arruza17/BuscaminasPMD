@@ -28,4 +28,10 @@
     <string name="tutorial" translatable="false">Tutorial</string>
     <string name="txt_intent_map">Choose the app to open with</string>
     <string name="txt_error_2">There is not a browser to open with</string>
+    <string name="txtTip1">If you find this chest on a field you will get a random powerup.</string>
+    <string name="txtTip2">This power up speeds up the timer, you better be fast and accurate!.</string>
+    <string name="txtTip3">This power up slows down the timer, which gives you more time.</string>
+    <string name="txtTutorial">Click below for more information!</string>
+    <string name="youtube" translatable="false">Pufferfish</string>
+
 </resources>
