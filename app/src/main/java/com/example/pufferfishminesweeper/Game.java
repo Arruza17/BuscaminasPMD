@@ -253,13 +253,13 @@ public class Game extends AppCompatActivity {
         btn.setImageDrawable(drawable);
     }
 
-    private void changeButtonProperties(NumberButton btn) {
+    private void changeButtonProperties(ImageView btn) {
         btn.setEnabled(false);
-        btn.setClicked(true);
+        ((NumberButton)btn).setClicked(true);
         GradientDrawable clearBorder = new GradientDrawable();
         clearBorder.setColor(Color.argb(100, 0, 0, 0));
         clearBorder.setStroke(1, 0xFF000000);
-        establishButtonImage(btn);
+        establishButtonImage((NumberButton) btn);
         btn.setBackgroundDrawable(clearBorder);
 
 
