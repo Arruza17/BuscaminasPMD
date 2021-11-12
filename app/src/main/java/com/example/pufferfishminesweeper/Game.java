@@ -229,8 +229,8 @@ public class Game extends AppCompatActivity {
                             changeButtonProperties((NumberButton) v);
                             checkIfWin();
                             if (boardString[((NumberButton) v).getRow()][((NumberButton) v).getColumn()].equals("")) {
-                                //emptySurroundings(((NumberButton) v).getRow(), ((NumberButton) v).getColumn());
-                                emptySurroundings((NumberButton) v);
+                                emptySurroundings(((NumberButton) v).getRow(), ((NumberButton) v).getColumn());
+                                //emptySurroundings((NumberButton) v);
                             }
 
                         }
@@ -410,110 +410,113 @@ public class Game extends AppCompatActivity {
     }
 
 
-    private void emptySurroundings(int j, int k) {
+    private void emptySurroundings(int x, int y) {
 
-        if (j - 1 < gridLayout.getRowCount() && j - 1 > 0) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k]).isClicked()) {//fila arriba
-                emptySurroundings(((NumberButton) buttons[j - 1][k]).getRow(), (((NumberButton) buttons[j - 1][k]).getColumn()));
+        NumberButton button;
+        NumberButton aux = null;
+
+        if (x - 1 < gridLayout.getRowCount() && x - 1 > 0) {
+            if (!boardString[x - 1][y].equals("") && !((NumberButton) buttons[x - 1][y]).isClicked()) {//fila arriba
+                changeButtonProperties(buttons[x - 1][y]);
             }
         }
-        if (j - 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && j - 1 > 0 && k - 1 > 0) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k - 1]).isClicked()) {//arriba izquierda
-                emptySurroundings(((NumberButton) buttons[j - 1][k - 1]).getRow(), (((NumberButton) buttons[j - 1][k - 1]).getColumn()));
+        if (x - 1 < gridLayout.getRowCount()  && y - 1 < gridLayout.getColumnCount() && x - 1 > 0 && y - 1 > 0) {
+            if (!boardString[x - 1][y - 1].equals("") && !((NumberButton) buttons[x - 1][y - 1]).isClicked()) {//arriba izquierda
+                changeButtonProperties(buttons[x - 1][y - 1]);
             }
         }
-        if (j - 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount() && j - 1 > 0) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j - 1][k + 1]).getRow(), (((NumberButton) buttons[j - 1][k + 1]).getColumn()));
+        if (x - 1 < gridLayout.getRowCount()  && y + 1 < gridLayout.getColumnCount() && x - 1 > 0) {
+            if (!boardString[x - 1][y + 1].equals("") && !((NumberButton) buttons[x - 1][y + 1]).isClicked()) {
+                changeButtonProperties(buttons[x - 1][y + 1]);
             }
         }
-        if (k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j][k - 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j][k - 1]).getRow(), (((NumberButton) buttons[j][k - 1]).getColumn()));
+        if (y - 1 < y && y - 1 > 0) {
+            if (!boardString[x][y - 1].equals("") && !((NumberButton) buttons[x][y - 1]).isClicked()) {
+                changeButtonProperties(buttons[x][y - 1]);
             }
         }
-        if (k + 1 < gridLayout.getColumnCount()) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j][k + 1]).getRow(), (((NumberButton) buttons[j][k + 1]).getColumn()));
+        if (y + 1 < gridLayout.getColumnCount()) {
+            if (!boardString[x][y + 1].equals("") && !((NumberButton) buttons[x][y + 1]).isClicked()) {
+                changeButtonProperties(buttons[x][y + 1]);
             }
         }
-        if (j + 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k - 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k - 1]).getRow(), (((NumberButton) buttons[j + 1][k - 1]).getColumn()));
+        if (x + 1 < gridLayout.getRowCount()  && y - 1 < gridLayout.getColumnCount() && y - 1 > 0) {
+            if (!boardString[x + 1][y - 1].equals("") && !((NumberButton) buttons[x + 1][y - 1]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y - 1]);
             }
         }
-        if (j + 1 < gridLayout.getRowCount()) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k]).getRow(), (((NumberButton) buttons[j + 1][k]).getColumn()));
+        if (x + 1 < gridLayout.getRowCount() ) {
+            if (!boardString[x + 1][y].equals("") && !((NumberButton) buttons[x + 1][y]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y]);
             }
         }
-        if (j + 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount()) {
-            if (!boardString[j - 1][k].equals("*") && !boardString[j - 1][k].equals("") && !((NumberButton) buttons[j + 1][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
+        if (x + 1 < gridLayout.getRowCount()  && y + 1 < gridLayout.getColumnCount()) {
+            if (!boardString[x + 1][y + 1].equals("") && !((NumberButton) buttons[x + 1][y + 1]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y + 1]);
             }
         }
         //Vacios 0
-        if (j - 1 < gridLayout.getRowCount() && j - 1 > 0) {
-            if (boardString[j - 1][k].equals("") && !((NumberButton) buttons[j - 1][k]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j - 1][k]).getRow(), (((NumberButton) buttons[j - 1][k]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j - 1][k]);
+        if (x - 1 < gridLayout.getRowCount()  && x - 1 > 0) {
+            if (boardString[x - 1][y].equals("") && !((NumberButton) buttons[x - 1][y]).isClicked()) {
+                changeButtonProperties(buttons[x - 1][y]);
+                emptySurroundings(((NumberButton) buttons[x - 1][y]).getRow(), (((NumberButton) buttons[x - 1][y]).getColumn()));
             }
         }
         //Arriba izquierda
-        if (j - 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && j - 1 > 0 && k - 1 > 0) {
-            if (boardString[j - 1][k - 1].equals("") && !((NumberButton) buttons[j - 1][k - 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j - 1][k - 1]).getRow(), (((NumberButton) buttons[j - 1][k - 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j - 1][k - 1]);
+        if (x - 1 < gridLayout.getRowCount()  && y - 1 < gridLayout.getColumnCount() && x - 1 > 0 && y - 1 > 0) {
+            if (boardString[x - 1][y - 1].equals("") && !((NumberButton) buttons[x - 1][y - 1]).isClicked()) {
+                changeButtonProperties(buttons[x - 1][y - 1]);
+                emptySurroundings(((NumberButton) buttons[x - 1][y - 1]).getRow(), (((NumberButton) buttons[x - 1][y - 1]).getColumn()));
             }
         }
         //Arriba derecha
-        if (j - 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount() && j - 1 > 0) {
-            if (boardString[j - 1][k + 1].equals("") && !((NumberButton) buttons[j - 1][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j - 1][k + 1]).getRow(), (((NumberButton) buttons[j - 1][k + 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j - 1][k + 1]);
+        if (x - 1 < gridLayout.getRowCount()  && y + 1 < gridLayout.getColumnCount() && x - 1 > 0) {
+            if (boardString[x - 1][y + 1].equals("") && !((NumberButton) buttons[x - 1][y + 1]).isClicked()) {
+                changeButtonProperties(buttons[x - 1][y + 1]);
+                emptySurroundings(((NumberButton) buttons[x - 1][y + 1]).getRow(), (((NumberButton) buttons[x - 1][y + 1]).getColumn()));
             }
         }
 
         //4 Izquierda
-        if (k - 1 < gridLayout.getColumnCount() && k > 0) {
-            if (boardString[j][k - 1].equals("") && !((NumberButton) buttons[j][k - 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j][k - 1]).getRow(), (((NumberButton) buttons[j][k - 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j][k - 1]);
+        if (y - 1 < gridLayout.getColumnCount() && y > 0) {
+            if (boardString[x][y - 1].equals("") && !((NumberButton) buttons[x][y - 1]).isClicked()) {
+                changeButtonProperties(buttons[x][y - 1]);
+                emptySurroundings(((NumberButton) buttons[x][y - 1]).getRow(), (((NumberButton) buttons[x][y - 1]).getColumn()));
             }
         }
         //5
 
-        if (k + 1 < gridLayout.getColumnCount()) {
-            if (boardString[j][k + 1].equals("") && !((NumberButton) buttons[j][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j][k + 1]);
-
+        if (y + 1 < gridLayout.getColumnCount()) {
+            if (boardString[x][y + 1].equals("") && !((NumberButton) buttons[x][y + 1]).isClicked()) {
+                changeButtonProperties(buttons[x][y + 1]);
+                emptySurroundings(((NumberButton) buttons[x][y + 1]).getRow(), (((NumberButton) buttons[x][y + 1]).getColumn()));
             }
         }
 
 
         //6
-        if (j + 1 < gridLayout.getRowCount() && k - 1 < gridLayout.getColumnCount() && k - 1 > 0) {
-            if (boardString[j + 1][k - 1].equals("") && !((NumberButton) buttons[j + 1][k - 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k - 1]).getRow(), (((NumberButton) buttons[j + 1][k - 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j + 1][k - 1]);
-
+        if (x + 1 < gridLayout.getRowCount()  && y - 1 < gridLayout.getColumnCount() && y -1> 0) {
+            if (boardString[x + 1][y - 1].equals("") && !((NumberButton) buttons[x + 1][y - 1]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y - 1]);
+                emptySurroundings(((NumberButton) buttons[x + 1][y - 1]).getRow(), (((NumberButton) buttons[x + 1][y - 1]).getColumn()));
             }
         }
         //7
-        if (j + 1 < gridLayout.getRowCount()) {
-            if (boardString[j + 1][k].equals("") && !((NumberButton) buttons[j + 1][k]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k]).getRow(), (((NumberButton) buttons[j + 1][k]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j + 1][k]);
+        if (x + 1 < gridLayout.getRowCount() ) {
+            if (boardString[x + 1][y].equals("") && !((NumberButton) buttons[x + 1][y]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y]);
+                emptySurroundings(((NumberButton) buttons[x + 1][y]).getRow(), (((NumberButton) buttons[x + 1][y]).getColumn()));
             }
         }
         //8
-        if (j + 1 < gridLayout.getRowCount() && k + 1 < gridLayout.getColumnCount()) {
-            if (boardString[j + 1][k + 1].equals("") && !((NumberButton) buttons[j + 1][k + 1]).isClicked()) {
-                emptySurroundings(((NumberButton) buttons[j + 1][k + 1]).getRow(), (((NumberButton) buttons[j + 1][k + 1]).getColumn()));
-                changeButtonProperties((NumberButton) buttons[j + 1][k + 1]);
+        if (x + 1 < gridLayout.getRowCount()  && y + 1 < y) {
+            if (boardString[x + 1][y + 1].equals("") && !((NumberButton) buttons[x - 1][y]).isClicked()) {
+                changeButtonProperties(buttons[x + 1][y + 1]);
+                emptySurroundings(((NumberButton) buttons[x + 1][y + 1]).getRow(), (((NumberButton) buttons[x + 1][y + 1]).getColumn()));
             }
         }
+
+
     }
 
 
