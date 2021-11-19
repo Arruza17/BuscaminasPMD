@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +29,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Intent intent;
-    boolean animation_NotDone = true;
-    private TableLayout tableLayout;
     private EditText editText_Nombre;
     private RadioGroup radioGroupDifficulties;
-    private RadioButton radioButtonEasy;
-    private RadioButton radioButtonMedium;
-    private RadioButton radioButtonHard;
     private TextView appName;
     private Button buttonPlay;
     private Button buttonHelp;
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         buttonHelp = findViewById(R.id.buttonHelp);
         buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
         appName = findViewById(R.id.appName);
-        radioButtonEasy = findViewById(R.id.radioButtonFacil);
-        radioButtonMedium = findViewById(R.id.radioButtonMedia);
-        radioButtonHard = findViewById(R.id.radioButtonDificil);
         logoChange = findViewById(R.id.buttonChange);
         //Adding all the listeners
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -98,78 +94,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void generatePlayWindow() {
+        //Getting the id and position of the selected radiobutton
+        int radioButtonID = radioGroupDifficulties.getCheckedRadioButtonId();
+        View radioButton = radioGroupDifficulties.findViewById(radioButtonID);
+        int idx = radioGroupDifficulties.indexOfChild(radioButton) + 1;
+        // Make sound when the play button is pressed
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.salto_al_agua);
+        mediaPlayer.start();
+        // Create Intent to the GAME CLASS
+        Intent intent = new Intent(MainActivity.this, Game.class);
+        // We give the name and the difficulty to the other activity
+        intent.putExtra("difficulty", String.valueOf(idx));
+        intent.putExtra("player", editText_Nombre.getText().toString());
+        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+        startActivity(intent, b);
+        //Toast.makeText(MainActivity.this,String.valueOf(radioButton.getId()), Toast.LENGTH_SHORT).show();
 
-    private void easterEgg() {
-        if (animation_NotDone) {
-            animation_NotDone = false;
-            //Making sure that the user had found the Easter Egg
-            Toast.makeText(getApplicationContext(), getString(R.string.easterEggFound), Toast.LENGTH_LONG).show();
-            //A simple animation between two colors
-            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(appName,
-                    "textColor",
-                    new ArgbEvaluator(),
-                    Color.rgb(74, 67, 67),
-                    Color.rgb(239, 184, 16));
-            //2 second animation set
-            backgroundColorAnimator.setDuration(2000);
-            backgroundColorAnimator.start();
-            //Adding a new RadioButton to the RadioGroup
-            RadioButton rb = new RadioButton(this);
-            radioButtonExtremeId = RadioButton.generateViewId();
-            rb.setId(radioButtonExtremeId);
-            rb.setTextSize(16);
-            rb.setTextColor(Color.WHITE);
-            //rb.setPadding(0,5,0,0);
-            //Adding the same paramethers that the other children have
-            rb.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-            rb.setText(getString(R.string.extrema));
-            //If its possible the color of the radio will change depending on your SKD level
-            if (Build.VERSION.SDK_INT >= 21) {
-                ColorStateList colorStateList = new ColorStateList(
-                        new int[][]
-                                {
-                                        new int[]{-android.R.attr.state_enabled}, // Disabled
-                                        new int[]{android.R.attr.state_enabled}   // Enabled
-                                },
-                        new int[]
-                                {
-                                        Color.rgb(128, 116, 116), // disabled
-                                        Color.rgb(128, 116, 116)  // enabled
-                                }
-                );
-                rb.setButtonTintList(colorStateList); // set the color tint list
-            }
-            //Add the new RadioButton to the RadioGroup
-            radioGroupDifficulties.addView(rb);
-            //Simple Color animation in the RadioButton Extreme
-            ObjectAnimator backgroundColorAnimatorExtreme = ObjectAnimator.ofObject(rb,
-                    "textColor",
-                    new ArgbEvaluator(),
-                    Color.rgb(generateRandomColor(), generateRandomColor(), generateRandomColor()),
-                    Color.rgb(generateRandomColor(), generateRandomColor(), generateRandomColor()));
-            //2 second animation set
-            backgroundColorAnimatorExtreme.setDuration(2500);
-            backgroundColorAnimatorExtreme.start();
-        }
-    }
-
-    private int generateRandomColor() {
-        Random rand = new Random();
-        int randcolor = rand.nextInt((255 - 0) + 1) + 0;
-        return randcolor;
-    }
-
-    private boolean checkEveryField() {
-        boolean ok = true;
-        if (editText_Nombre.getText().toString().isEmpty()) {
-            ok = false;
-            Toast.makeText(getApplicationContext(), getString(R.string.introduceTextoPrimero), Toast.LENGTH_SHORT).show();
-        }
-        if (radioGroupDifficulties.getCheckedRadioButtonId() == -1) {
-            ok = false;
-            Toast.makeText(getApplicationContext(), getString(R.string.introduceDificultad), Toast.LENGTH_SHORT).show();
-        }
-        return ok;
     }
 
     private void generateHelpWindow() {
@@ -188,22 +129,89 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i, b);
     }
 
-    private void generatePlayWindow() {
-        //Getting the id and position of the selected radiobutton
-        int radioButtonID = radioGroupDifficulties.getCheckedRadioButtonId();
-        View radioButton = radioGroupDifficulties.findViewById(radioButtonID);
-        int idx = radioGroupDifficulties.indexOfChild(radioButton)+1;
+    private void easterEgg() {
+        //Makes a sound when the easterEgg is found
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.thunder);
+        mediaPlayer.start();
+        //Get the mobile device status
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //If the device status is not the SILENT does the VIBRATION
+        if (am.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+            //Make the phone vibrate
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            // Vibrate for 500 milliseconds
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                v.vibrate(500);
+            }
+        }
+        //Making sure that the user had found the Easter Egg
+        Toast.makeText(getApplicationContext(), getString(R.string.easterEggFound), Toast.LENGTH_LONG).show();
+        //A simple animation between two colors
+        ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(appName,
+                "textColor",
+                new ArgbEvaluator(),
+                Color.rgb(74, 67, 67),
+                Color.rgb(239, 184, 16));
+        //2 second animation set
+        backgroundColorAnimator.setDuration(2000);
+        backgroundColorAnimator.start();
+        //Adding a new RadioButton to the RadioGroup
+        RadioButton rb = new RadioButton(this);
+        radioButtonExtremeId = RadioButton.generateViewId();
+        rb.setId(radioButtonExtremeId);
+        rb.setTextSize(16);
+        rb.setTextColor(Color.WHITE);
+        //Adding the same paramethers that the other children have
+        rb.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        rb.setText(getString(R.string.extrema));
+        //Change the color of the radiobutton
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]
+                        {
+                                new int[]{-android.R.attr.state_enabled}, // Disabled
+                                new int[]{android.R.attr.state_enabled}   // Enabled
+                        },
+                new int[]
+                        {
+                                Color.rgb(128, 116, 116), // disabled
+                                Color.rgb(128, 116, 116)  // enabled
+                        }
+        );
+        rb.setButtonTintList(colorStateList); // set the color tint list
+        //Add the new RadioButton to the RadioGroup
+        radioGroupDifficulties.addView(rb);
+        //Simple Color animation in the RadioButton Extreme
+        ObjectAnimator backgroundColorAnimatorExtreme = ObjectAnimator.ofObject(rb,
+                "textColor",
+                new ArgbEvaluator(),
+                Color.rgb(generateRandomColor(), generateRandomColor(), generateRandomColor()),
+                Color.rgb(generateRandomColor(), generateRandomColor(), generateRandomColor()));
+        //2 second animation set
+        backgroundColorAnimatorExtreme.setDuration(2500);
+        backgroundColorAnimatorExtreme.start();
+        logoChange.setClickable(false);
 
-        // Create Intent to the GAME CLASS
-        Intent intent = new Intent(MainActivity.this, Game.class);
-        // We give the name and the difficulty to the other activity
-        intent.putExtra("difficulty", String.valueOf(idx));
-        String player = editText_Nombre.getText().toString();
-        intent.putExtra("player", editText_Nombre.getText().toString());
-        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
-        startActivity(intent, b);
-        //Toast.makeText(MainActivity.this,String.valueOf(radioButton.getId()), Toast.LENGTH_SHORT).show();
+    }
 
+    private int generateRandomColor() {
+        Random rand = new Random();
+        return rand.nextInt((255) + 1);
+    }
+
+    private boolean checkEveryField() {
+        boolean ok = true;
+        if (editText_Nombre.getText().toString().isEmpty()) {
+            ok = false;
+            Toast.makeText(getApplicationContext(), getString(R.string.introduceTextoPrimero), Toast.LENGTH_SHORT).show();
+        }
+        if (radioGroupDifficulties.getCheckedRadioButtonId() == -1) {
+            ok = false;
+            Toast.makeText(getApplicationContext(), getString(R.string.introduceDificultad), Toast.LENGTH_SHORT).show();
+        }
+        return ok;
     }
 
 
