@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.pufferfishminesweeper.classes.ScoreBoard;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,9 +34,12 @@ public class ScoreBoardScreen extends AppCompatActivity {
     private final String TABLE_NAME = "t_scoreboard";
     private final String COLUM_NOMBRE = "Nombre";
     private final String COLUM_PUNTUACION = "Puntuacion";
+    private final String COLUMN_FOTO = "Foto";
     private final String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
     private String player;
     private int score;
+    private Blob imagen;
+    private String rutaImagen;
     private TableLayout tableYourScores;
 
 
@@ -44,11 +48,14 @@ public class ScoreBoardScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
         databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-        databasePufferFish.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER)");
+        databasePufferFish
+                .execSQL("CREATE TABLE IF NOT EXISTS "
+                        + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER," +COLUMN_FOTO+ " BLOB )");
 
         if (getIntent().getExtras() != null) {
             score = Integer.parseInt(getIntent().getExtras().getString("score"));
             player = getIntent().getExtras().getString("player");
+
             String insert = "INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('" + player + "'," + score + ")";
             databasePufferFish.execSQL(insert);
             Toast toast = Toast.makeText(getApplicationContext(),
