@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.example.pufferfishminesweeper.game.Board;
@@ -32,6 +30,7 @@ import com.example.pufferfishminesweeper.powerUps.PowerUp;
 import com.example.pufferfishminesweeper.powerUps.SlowTimer;
 
 public class Game extends AppCompatActivity {
+
 
     private TextView timer;
     private Button btnMenu;
@@ -566,5 +565,6 @@ public class Game extends AppCompatActivity {
 
         }
     }
+
 
 }
