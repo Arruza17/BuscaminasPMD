@@ -30,4 +30,5 @@
     <!--GAME STRINGS-->
     <string name="gameEnd">Juego terminado</string>
     <string name="timeIssue">Problema con los PowerUps</string>
+    <string name="record">Grabar</string>
 </resources>

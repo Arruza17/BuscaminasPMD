@@ -37,4 +37,5 @@
     <!--GAME STRINGS-->
     <string name="gameEnd">Game Over</string>
     <string name="timeIssue">There was an issue with the PowerUp</string>
+    <string name="record">Record</string>
 </resources>
