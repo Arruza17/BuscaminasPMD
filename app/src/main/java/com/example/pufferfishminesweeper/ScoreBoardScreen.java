@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -38,9 +39,9 @@ public class ScoreBoardScreen extends AppCompatActivity {
     private final String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
     private String player;
     private int score;
-    private Blob imagen;
-    private String rutaImagen;
+    private ImageButton buttonFoto;
     private TableLayout tableYourScores;
+    private byte[] image;
 
 
     @Override
@@ -51,12 +52,11 @@ public class ScoreBoardScreen extends AppCompatActivity {
         databasePufferFish
                 .execSQL("CREATE TABLE IF NOT EXISTS "
                         + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER," +COLUMN_FOTO+ " BLOB )");
-
         if (getIntent().getExtras() != null) {
             score = Integer.parseInt(getIntent().getExtras().getString("score"));
             player = getIntent().getExtras().getString("player");
-
-            String insert = "INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ")" + "VALUES ('" + player + "'," + score + ")";
+            image = getIntent().getExtras().getByteArray("image");
+            String insert = "INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ","+ COLUMN_FOTO+")" + "VALUES ('" + player + "'," + score + ","+ image+")";
             databasePufferFish.execSQL(insert);
             Toast toast = Toast.makeText(getApplicationContext(),
                     player + " " + score, Toast.LENGTH_SHORT);
@@ -67,6 +67,7 @@ public class ScoreBoardScreen extends AppCompatActivity {
         //FIND AND SET ALL THE VIEWS
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
         btnBack = findViewById(R.id.buttonBack);
+        buttonFoto = findViewById(R.id.buttonPhoto);
         //LISTENERS
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +143,7 @@ public class ScoreBoardScreen extends AppCompatActivity {
             // moving our cursor to next
             while (cursor.moveToNext()) {
                 // on below line we are adding the data from cursor to our array list.
-                arrayList.add(new ScoreBoard(cursor.getString(0), cursor.getInt(1)));
+                arrayList.add(new ScoreBoard(cursor.getString(0), cursor.getInt(1),cursor.getBlob(2)));
             }
         }
         // at last closing our cursor

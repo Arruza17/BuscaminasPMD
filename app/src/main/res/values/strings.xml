@@ -16,6 +16,8 @@
     <string name="easterEggFound">Easter Egg Found!</string>
     <string name="introduceTextoPrimero">Insert your name first...</string>
     <string name="introduceDificultad">Insert the difficulty first..</string>
+    <string name="photo">Photo</string>
+    <string name="permissionNeeded">A permision is needed to open the camera</string>
     <!-- SCOREBOARD STRINGS-->
     <string name="nombreMayus">NAME</string>
     <string name="score">SCORE</string>

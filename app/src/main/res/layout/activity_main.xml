@@ -203,12 +203,52 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="50sp" />
+            android:layout_height="20sp" />
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/tableRow11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textViewPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/chivo"
+            android:text="@string/photo"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow11"
+        android:id="@+id/tableRow12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+
+            <ImageButton
+                android:id="@+id/buttonPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/ic_baseline_add_a_photo_24"
+                android:contentDescription="@string/photo" />
+        </LinearLayout>
+
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
@@ -225,7 +265,7 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow12"
+        android:id="@+id/tableRow14"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal">
@@ -260,4 +300,5 @@
         </LinearLayout>
 
     </TableRow>
+
 </TableLayout>

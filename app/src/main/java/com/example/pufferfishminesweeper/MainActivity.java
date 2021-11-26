@@ -1,13 +1,19 @@
 package com.example.pufferfishminesweeper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -15,16 +21,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private int easterEgg = 10;
     private int radioButtonExtremeId;
     private boolean cambioImagen = false;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ImageButton buttonPhoto;
+    private ImageView imagePhoto;
+    private static final int CAMERA_PERM_CODE = 100;
+    private byte[] bArray;
+    private Bitmap imageBitmap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
         appName = findViewById(R.id.appName);
         logoChange = findViewById(R.id.buttonChange);
+        buttonPhoto = findViewById(R.id.buttonPhoto);
         //Adding all the listeners
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
                 generateScoreBoardWindow();
             }
         });
+        buttonPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePhoto();
+            }
+        });
     }
 
     private void generatePlayWindow() {
@@ -107,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         // We give the name and the difficulty to the other activity
         intent.putExtra("difficulty", String.valueOf(idx));
         intent.putExtra("player", editText_Nombre.getText().toString());
+        byte[] image = getBytesFromBitmap(imageBitmap);
+        intent.putExtra("photo",image);
         Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
         startActivity(intent, b);
         //Toast.makeText(MainActivity.this,String.valueOf(radioButton.getId()), Toast.LENGTH_SHORT).show();
@@ -214,5 +239,30 @@ public class MainActivity extends AppCompatActivity {
         return ok;
     }
 
+    private void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");
+            buttonPhoto.setImageBitmap(imageBitmap);
+        }
+    }
+    private byte[] getBytesFromBitmap(Bitmap bitmap){
+        if(bitmap != null){
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            bArray = bos.toByteArray();
+            return bArray;
+        }
+        return null;
+    }
 
 }

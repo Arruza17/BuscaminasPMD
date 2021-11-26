@@ -13,6 +13,8 @@
     <string name="easterEggFound">Easter Egg encontrado!</string>
     <string name="introduceTextoPrimero">Introduce tu nombre...</string>
     <string name="introduceDificultad">Introduce la dificultad...</string>
+    <string name="photo">Foto</string>
+    <string name="permissionNeeded">Necesitamos el permiso de camara</string>
     <!-- STRINGS SCOREBOARD-->
     <string name="nombreMayus">NOMBRE</string>
     <string name="score">PUNTUACÓN</string>

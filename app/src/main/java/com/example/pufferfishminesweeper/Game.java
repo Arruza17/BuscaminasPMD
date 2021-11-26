@@ -47,6 +47,7 @@ public class Game extends AppCompatActivity {
     private ImageView[][] buttons;
     private int bombs = 0;
     private String player;
+    private byte[] image;
 
 
     @Override
@@ -76,6 +77,7 @@ public class Game extends AppCompatActivity {
 
         difficulty = Integer.parseInt(getIntent().getExtras().getString("difficulty"));
         player = getIntent().getExtras().getString("player");
+        image = getIntent().getExtras().getByteArray("photo");
 
 
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
@@ -540,10 +542,10 @@ public class Game extends AppCompatActivity {
         intent = new Intent(Game.this, ScoreBoardScreen.class);
         intent.putExtra("player", player);
         intent.putExtra("score", String.valueOf(score));
+        intent.putExtra("photo",image);
         startActivity(intent);
 
     }
-
     private void loseScreen() {
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
             if (!(gridLayout.getChildAt(i) instanceof NumberButton)) {
