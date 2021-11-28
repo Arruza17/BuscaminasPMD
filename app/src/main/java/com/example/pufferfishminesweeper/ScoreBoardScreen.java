@@ -1,46 +1,42 @@
 package com.example.pufferfishminesweeper;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.pufferfishminesweeper.classes.ScoreBoard;
 
-import java.sql.Blob;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
 
 public class ScoreBoardScreen extends AppCompatActivity {
 
     private TableLayout tableLayoutScores;
-
     private SQLiteDatabase databasePufferFish = null;
-    private Button btnBack;
-    private final String DATABASE_NAME = "PufferFishDataBase";
     private final String TABLE_NAME = "t_scoreboard";
     private final String COLUM_NOMBRE = "Nombre";
     private final String COLUM_PUNTUACION = "Puntuacion";
     private final String COLUMN_FOTO = "Foto";
-    private final String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
     private String player;
     private int score;
-    private ImageButton buttonFoto;
-    private TableLayout tableYourScores;
     private byte[] image;
 
 
@@ -48,26 +44,11 @@ public class ScoreBoardScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
-        databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-        databasePufferFish
-                .execSQL("CREATE TABLE IF NOT EXISTS "
-                        + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER," +COLUMN_FOTO+ " BLOB )");
-        if (getIntent().getExtras() != null) {
-            score = Integer.parseInt(getIntent().getExtras().getString("score"));
-            player = getIntent().getExtras().getString("player");
-            image = getIntent().getExtras().getByteArray("image");
-            String insert = "INSERT INTO " + TABLE_NAME + "(" + COLUM_NOMBRE + "," + COLUM_PUNTUACION + ","+ COLUMN_FOTO+")" + "VALUES ('" + player + "'," + score + ","+ image+")";
-            databasePufferFish.execSQL(insert);
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    player + " " + score, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-
+        createDB();
         //FIND AND SET ALL THE VIEWS
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
-        btnBack = findViewById(R.id.buttonBack);
-        buttonFoto = findViewById(R.id.buttonPhoto);
+        Button btnBack = findViewById(R.id.buttonBack);
+        generateData();
         //LISTENERS
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +59,44 @@ public class ScoreBoardScreen extends AppCompatActivity {
         });
 
 
-        //Generate all the data
-        generateData();
+    }
 
+    private void createDB() {
+        //OPEN OR CREATE THE DATABASE
+        String DATABASE_NAME = "PufferFishDataBase";
+        databasePufferFish = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        databasePufferFish
+                .execSQL("CREATE TABLE IF NOT EXISTS "
+                        + TABLE_NAME + " (" + COLUM_NOMBRE + " VARCHAR, " + COLUM_PUNTUACION + " INTEGER," +COLUMN_FOTO+ " BLOB )");
+        if (getIntent().getExtras() != null) {
+            score = Integer.parseInt(getIntent().getExtras().getString("score"));
+            player = getIntent().getExtras().getString("player");
+            image = getIntent().getExtras().getByteArray("photo");
+            //IF THE PLAYER DIDN'T PUT AN IMAGE, A DEFAULT ONE WILL BE INSERTED
+            if(image==null){
+                Drawable defaultUser = getDrawable(R.drawable.defaultuser);
+                Bitmap bitmap = ((BitmapDrawable)defaultUser).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                image = stream.toByteArray();
+            }
+            insertUserData();
+            //TELLING THE PLAYER HIS SCORE
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.yourScore));
+            builder.setMessage(String.valueOf(score)+" "+getString(R.string.points));
+            builder.setPositiveButton(getString(R.string.accept), null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    private void insertUserData() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUM_NOMBRE,player);
+        contentValues.put(COLUM_PUNTUACION,score);
+        contentValues.put(COLUMN_FOTO,image);
+        databasePufferFish.insert(TABLE_NAME,null,contentValues);
     }
 
     private void generateData() {
@@ -92,6 +108,11 @@ public class ScoreBoardScreen extends AppCompatActivity {
                 //ADD A NEW ROW
                 TableRow tableRow = new TableRow(this);
                 tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                //ADD THE PHOTO COLUMN
+                ImageView imageView = new ImageView(this);
+                Drawable image = new BitmapDrawable(getResources(), BitmapFactory.decodeByteArray(s.getImage(), 0, s.getImage().length));
+                imageView.setBackground(image);
+                tableRow.addView(imageView);
                 //ADD THE NAME COLUMN
                 TextView nombre = new TextView(this);
                 nombre.setText(s.getNombre());
@@ -133,8 +154,9 @@ public class ScoreBoardScreen extends AppCompatActivity {
      *
      * @return an arraylist with all the scores
      */
-    public ArrayList<ScoreBoard> getScores() {
+    private ArrayList<ScoreBoard> getScores() {
         // on below line we are creating a cursor with query to read data from database.
+        String SELECT_ALL_DATA = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUM_PUNTUACION + " DESC LIMIT 10";
         Cursor cursor = databasePufferFish.rawQuery(SELECT_ALL_DATA, null);
         // on below line we are creating a new array list.
         ArrayList<ScoreBoard> arrayList = new ArrayList<>();
