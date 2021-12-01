@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonPlay;
     private Button buttonHelp;
     private Button buttonScoreBoard;
+    private Button buttonRecord;
     private ImageButton logoChange;
     private int easterEgg = 10;
     private int radioButtonExtremeId;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         buttonPlay = findViewById(R.id.buttonPlay);
         buttonHelp = findViewById(R.id.buttonHelp);
         buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
+        buttonRecord= findViewById(R.id.btnRecordWindow);
         appName = findViewById(R.id.appName);
         logoChange = findViewById(R.id.buttonChange);
         buttonPhoto = findViewById(R.id.buttonPhoto);
@@ -115,8 +117,20 @@ public class MainActivity extends AppCompatActivity {
                 takePhoto();
             }
         });
+        buttonRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateRecordedVideoPlayer();
+            }
+        });
     }
 
+    private void generateRecordedVideoPlayer() {
+        Intent intent = new Intent(MainActivity.this, RecordedVideoPlayer.class);
+        // We give the name and the difficulty to the other activity
+        Bundle b = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+        startActivity(intent, b);
+    }
     private void generatePlayWindow() {
         //Getting the id and position of the selected radiobutton
         int radioButtonID = radioGroupDifficulties.getCheckedRadioButtonId();
