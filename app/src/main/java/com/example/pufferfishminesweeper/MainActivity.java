@@ -1,17 +1,10 @@
 package com.example.pufferfishminesweeper;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -26,12 +19,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
@@ -41,19 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText_Nombre;
     private RadioGroup radioGroupDifficulties;
     private TextView appName;
-    private Button buttonPlay;
-    private Button buttonHelp;
-    private Button buttonScoreBoard;
-    private Button buttonRecord;
     private ImageButton logoChange;
     private int easterEgg = 10;
-    private int radioButtonExtremeId;
     private boolean cambioImagen = false;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageButton buttonPhoto;
-    private ImageView imagePhoto;
-    private static final int CAMERA_PERM_CODE = 100;
-    private byte[] bArray;
     private Bitmap imageBitmap;
 
 
@@ -64,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
         //Setting up the object to work with them
         editText_Nombre = findViewById(R.id.editText_Nombre);
         radioGroupDifficulties = findViewById(R.id.radioGroupDifficulties);
-        buttonPlay = findViewById(R.id.buttonPlay);
-        buttonHelp = findViewById(R.id.buttonHelp);
-        buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
-        buttonRecord= findViewById(R.id.btnRecordWindow);
+        Button buttonPlay = findViewById(R.id.buttonPlay);
+        Button buttonHelp = findViewById(R.id.buttonHelp);
+        Button buttonScoreBoard = findViewById(R.id.buttonScoreBoard);
+        Button buttonRecord = findViewById(R.id.btnRecordWindow);
         appName = findViewById(R.id.appName);
         logoChange = findViewById(R.id.buttonChange);
         buttonPhoto = findViewById(R.id.buttonPhoto);
@@ -199,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         backgroundColorAnimator.start();
         //Adding a new RadioButton to the RadioGroup
         RadioButton rb = new RadioButton(this);
-        radioButtonExtremeId = RadioButton.generateViewId();
+        int radioButtonExtremeId = RadioButton.generateViewId();
         rb.setId(radioButtonExtremeId);
         rb.setTextSize(16);
         rb.setTextColor(Color.WHITE);
@@ -273,8 +259,7 @@ public class MainActivity extends AppCompatActivity {
         if(bitmap != null){
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            bArray = bos.toByteArray();
-            return bArray;
+            return bos.toByteArray();
         }
         return null;
     }
