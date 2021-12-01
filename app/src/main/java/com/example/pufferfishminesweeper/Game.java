@@ -95,6 +95,8 @@ public class Game extends AppCompatActivity {
 
         generateGame();
 
+
+
     }
 
     private void powerUpHandler(View v) {
