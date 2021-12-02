@@ -89,10 +89,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
-
+                <TextView
+                    android:id="@+id/textViewFoto"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:text="@string/photo"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/textViewNombre"
-                    android:layout_width="175dp"
+                    android:layout_width="115dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
                     android:gravity="center"
@@ -103,7 +112,7 @@
 
                 <TextView
                     android:id="@+id/textViewScores"
-                    android:layout_width="175dp"
+                    android:layout_width="115dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
                     android:gravity="center"
@@ -111,6 +120,7 @@
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
             </TableRow>
 
         </TableLayout>
@@ -166,11 +176,5 @@
             android:textSize="20sp" />
 
     </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow11"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"/>
 
 </TableLayout>

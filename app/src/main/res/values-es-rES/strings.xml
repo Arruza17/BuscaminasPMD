@@ -13,12 +13,16 @@
     <string name="easterEggFound">Easter Egg encontrado!</string>
     <string name="introduceTextoPrimero">Introduce tu nombre...</string>
     <string name="introduceDificultad">Introduce la dificultad...</string>
+    <string name="photo">Foto</string>
     <!-- STRINGS SCOREBOARD-->
     <string name="nombreMayus">NOMBRE</string>
-    <string name="score">PUNTUACÓN</string>
+    <string name="score">Puntuación</string>
     <string name="best10">TOP 10</string>
     <string name="back">ATRÁS</string>
     <string name="noDataYet">No hay datos todavía</string>
+    <string name="yourScore">Puntuación total</string>
+    <string name="points">Puntos</string>
+    <string name="accept">ACEPTAR</string>
     <!--Strings HELP-->
     <string name="txt_Help">AYUDA</string>
     <string name="txt_intent_map">Elige App con la que abrir</string>
@@ -30,4 +34,5 @@
     <!--GAME STRINGS-->
     <string name="gameEnd">Juego terminado</string>
     <string name="timeIssue">Problema con los PowerUps</string>
+    <string name="record">Grabar</string>
 </resources>
