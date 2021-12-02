@@ -5,40 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#476072"
-    android:backgroundTint="#476072"
+    android:background="#abc4d6"
+    android:backgroundTint="#abc4d6"
     tools:context=".Game">
 
-    <Button
-        android:id="@+id/btnMenu"
-        style="@style/Widget.AppCompat.Button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="100dp"
-        android:background="#548CA8"
-        android:backgroundTint="#548CA8"
-        android:text="@string/menu"
-        android:textSize="24sp"
+        android:layout_marginEnd="200dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="110dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
-        android:text="999"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnMenu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="110dp"
+            android:layout_height="49dp"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="#041e42"
+            android:text="999"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnMenu"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="110dp"
+            android:layout_height="49dp"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="#041e42"
+            android:text="@string/menu"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnPowerUp"
@@ -47,8 +59,10 @@
         android:layout_marginStart="135dp"
         android:layout_marginEnd="135dp"
         android:layout_marginBottom="50dp"
-        android:backgroundTint="#548CA8"
+        android:background="@drawable/button_bg"
+        android:backgroundTint="#041e42"
         android:scaleType="centerInside"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
