@@ -169,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
+                android:minHeight="48dp"
                 android:text="@string/facil"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -179,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
+                android:minHeight="48dp"
                 android:text="@string/media"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -189,6 +191,7 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="#807474"
                 android:fontFamily="@font/chivo"
+                android:minHeight="48dp"
                 android:text="@string/dificil"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -261,7 +264,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg"
-            android:text="Play"
+            android:text="@string/jugar"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
