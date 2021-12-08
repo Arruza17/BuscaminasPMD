@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#476072"
+    android:background="#abc4d6"
     tools:context=".ScoreBoardScreen">
 
     <TableRow
@@ -37,7 +37,7 @@
             android:shadowRadius="10"
             android:text="@string/puntuaciones"
             android:textAlignment="center"
-            android:textColor="#4A4343"
+            android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -89,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
+
                 <TextView
                     android:id="@+id/textViewFoto"
                     android:layout_width="115dp"
@@ -99,6 +100,7 @@
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/textViewNombre"
                     android:layout_width="115dp"
@@ -171,8 +173,10 @@
             android:id="@+id/buttonBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#548CA8"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="#041e42"
             android:text="@string/back"
+            android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
     </TableRow>

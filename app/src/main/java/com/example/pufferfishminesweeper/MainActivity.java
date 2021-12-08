@@ -16,6 +16,8 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         appName = findViewById(R.id.appName);
         logoChange = findViewById(R.id.buttonChange);
         buttonPhoto = findViewById(R.id.buttonPhoto);
+        makeAnimationEffects();
         //Adding all the listeners
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
                 generateRecordedVideoPlayer();
             }
         });
+    }
+    private void makeAnimationEffects() {
+        // Photo constantly spin
+        Animation rotateAnimation = AnimationUtils.loadAnimation(this,R.anim.spin);
+        buttonPhoto.startAnimation(rotateAnimation);
+        // Fields entering
+        logoChange.setTranslationY(300);
+        logoChange.animate().translationY(0).alpha(1).setDuration(2000).setStartDelay(100).start();
     }
 
     private void generateRecordedVideoPlayer() {
